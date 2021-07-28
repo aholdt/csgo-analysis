@@ -11,6 +11,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.12.1" />
+    <PackageReference Include="NSwag.CodeGeneration.TypeScript" Version="13.12.1" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.12.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NSwag.Generation.WebApi" Version="13.12.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +26,17 @@
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
+
+  <Target Name="NSwagGenerateOpenApiDefinition" AfterTargets="Build">
+    <Exec Command="$(NSwagExe_Core31) aspnetcore2openapi /project:$(MSBuildProjectFile) /output:$(OutDir)openapi.json /configuration:$(Configuration) /noBuild:true" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="NSwagGenerateOpenApiDefinitionExitCode" />
+    </Exec>
+    <Error Condition="'$(NSwagGenerateOpenApiDefinitionExitCode)' &lt; '0'" Text="Unable to generate OpenApi definition for test api client. Check build output for detailed error message." />
+  </Target>
+
+  <Target Name="NSwag" AfterTargets="NSwagGenerateOpenApiDefinition">
+    <Exec Command="$(NSwagExe_Net50) run nswag.json /variables:Configuration=$(Configuration),SolutionName=$(ProjectName),TargetFramework=$(TargetFramework)" />
+  </Target>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
