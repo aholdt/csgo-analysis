@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.12.1" />
     <PackageReference Include="NSwag.CodeGeneration.TypeScript" Version="13.12.1" />
