@@ -1,0 +1,27 @@
+{
+  "name": "demoan",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "cd server && npm run start",
+    "start-watch": "concurrently \"npm run start-client-watch\" \"npm run start-server-watch\"",
+    "start-client-watch": "cd client && npm run start",
+    "start-server-watch": "cd server && npm run start:dev",
+    "build": "npm run build-server && npm run build-client",
+    "build-server": "cd server && npm run build",
+    "build-client": "cd client && npm run build",
+    "build-prod": "cd client && npm install && npm run build && cd ../server && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://demoanalysis@dev.azure.com/demoanalysis/Demoan/_git/Demoan"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  },
+  "dependencies": {
+    "swagger-express-ts": "^1.1.0"
+  }
+}
