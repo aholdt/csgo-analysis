@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { CatsApi } from './generated-api';
 
 function App() {
   return (
@@ -24,8 +25,8 @@ function App() {
 }
 
   const sayHello = async () => {
-    const response = await fetch("/cats/0");
-    const body = await response.json();
+    const catsApi = new CatsApi(undefined);
+    const body = await catsApi.catsIdGet({id:"0"});
     console.log(body);
   };
   sayHello();

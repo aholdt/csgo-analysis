@@ -10,7 +10,8 @@
     "build": "npm run build-server && npm run build-client",
     "build-server": "cd server && npm run build",
     "build-client": "cd client && npm run build",
-    "build-prod": "cd client && npm install && npm run build && cd ../server && npm install && npm run build"
+    "build-prod": "cd client && npm install && npm run build && cd ../server && npm install && npm run build",
+    "generate-api": "node node_modules/swagger-react-generator -I server/swagger.json -O client/src/generated-api/index.ts -T \"ts\""
   },
   "repository": {
     "type": "git",
@@ -19,9 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^6.2.0"
-  },
-  "dependencies": {
-    "swagger-express-ts": "^1.1.0"
+    "concurrently": "^6.2.0",
+    "swagger-react-generator": "^2.0.0"
   }
 }
