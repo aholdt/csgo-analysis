@@ -19,17 +19,27 @@ steps:
   inputs:
     Contents: 'package*.json'
     SourceFolder: 'server'
-    TargetFolder: 'server/dist'
+    TargetFolder: 'output/server/dist'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'server/dist'
+    TargetFolder: 'output/server/dist'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'client/build'
+    TargetFolder: 'output/client/build'
 
 - task: Npm@1
   inputs:
     command: 'custom'
-    workingDir: 'server/dist'
+    workingDir: 'output/server/dist'
     customCommand: 'ci --production'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'server/dist'
+    rootFolderOrFile: 'output'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: 'dist.zip'
