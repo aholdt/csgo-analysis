@@ -21,6 +21,12 @@ steps:
     SourceFolder: 'server'
     TargetFolder: 'server/dist'
 
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'server/dist'
+    customCommand: 'ci --production'
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: 'server/dist'
