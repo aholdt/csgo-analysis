@@ -8,18 +8,16 @@ export class FilesService {
   async uploadFile(file: Express.Multer.File): Promise<void> {
     this.EnsureBlobServiceClient();
     const container = await this.GetOrCreateContainer();
-    console.log(file);
     const blobClient = container.getBlockBlobClient(file.originalname);
-    console.log("uploading file " + file.filename);
     await blobClient.uploadData(file.buffer, {
       blobHTTPHeaders: { blobContentType: file.mimetype },
     });
   }
 
   private EnsureBlobServiceClient() {
-    const STORAGE_CONNECTION_STRING =
-      process.env.AZURE_STORAGE_CONNECTION_STRING || "";
     if (!this.blobServiceClient) {
+      const STORAGE_CONNECTION_STRING =
+        process.env.AZURE_STORAGE_CONNECTION_STRING || "";
       this.blobServiceClient = BlobServiceClient.fromConnectionString(
         STORAGE_CONNECTION_STRING
       );
