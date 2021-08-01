@@ -17,30 +17,29 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
     npm run build-prod
   displayName: 'npm install and build'
 
 - task: CopyFiles@2
   inputs:
     Contents: 'package*.json'
-    SourceFolder: 'server'
-    TargetFolder: 'output/server/dist'
+    SourceFolder: '/'
+    TargetFolder: 'output/dist'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'server/dist'
-    TargetFolder: 'output/server/dist'
+    SourceFolder: /dist'
+    TargetFolder: 'output/dist'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'client/build'
+    SourceFolder: 'apps/demoanapp/client/build'
     TargetFolder: 'output/client/build'
 
 - task: Npm@1
   inputs:
     command: 'custom'
-    workingDir: 'output/server/dist'
+    workingDir: 'output/dist'
     customCommand: 'ci --production'
 
 - task: ArchiveFiles@2
