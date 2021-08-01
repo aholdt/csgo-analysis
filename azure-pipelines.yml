@@ -28,7 +28,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '/dist'
+    SourceFolder: 'dist'
     Contents: '**'
     TargetFolder: 'output/dist'
 
