@@ -23,7 +23,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: 'package*.json'
-    SourceFolder: '/'
+    SourceFolder: ''
     TargetFolder: 'output/dist'
 
 - task: CopyFiles@2
