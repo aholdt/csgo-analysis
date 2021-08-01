@@ -22,8 +22,8 @@ async function bootstrap() {
 
   const PORT = process.env.PORT || 5000;
   app.useGlobalPipes(new ValidationPipe());
-  app.useStaticAssets(join(__dirname, '../../client', 'build'));
-  app.setBaseViewsDir(join(__dirname, '../../client', 'public'));
+  app.useStaticAssets(join(__dirname, '../client', 'build'));
+  app.setBaseViewsDir(join(__dirname, '../client', 'public'));
   app.setViewEngine('html');
   await app.listen(PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);

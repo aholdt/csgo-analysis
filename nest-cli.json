@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "introspectComments": true
+        }
+      }
+    ],
+    "webpack": true,
+    "tsConfigPath": "apps/demoanapp/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/demoanapp",
+  "sourceRoot": "apps/demoanapp/src",
+  "projects": {
+    "demoanapp": {
+      "type": "application",
+      "root": "apps/demoanapp",
+      "entryFile": "main",
+      "sourceRoot": "apps/demoanapp/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/demoanapp/tsconfig.app.json"
+      }
+    }
+  }
+}

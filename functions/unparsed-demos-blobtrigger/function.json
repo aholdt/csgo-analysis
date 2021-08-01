@@ -1,0 +1,13 @@
+{
+  "disabled": false,
+    "bindings": [
+        {
+            "name": "myBlob",
+            "type": "blobTrigger",
+            "direction": "in",
+            "path": "unparsed-demos/{name}",
+            "connection":"AZURE_STORAGE_CONNECTION_STRING"
+        }
+    ],
+  "scriptFile": "../dist/unparsed-demos-blobtrigger/index.js"
+}
