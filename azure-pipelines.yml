@@ -18,7 +18,11 @@ steps:
 
 - script: |
     npm run build-prod
-  displayName: 'npm install and build'
+  displayName: 'npm install and build nest'
+
+- script: |
+    npm run install-build-client
+  displayName: 'npm install and build react client'
 
 - task: CopyFiles@2
   inputs:
