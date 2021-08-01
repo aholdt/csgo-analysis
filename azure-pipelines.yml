@@ -4,8 +4,8 @@ trigger:
     - master
   paths:
     include:
-    - server
-    - client
+    - apps
+    - libs
 
 pool:
   vmImage: 'ubuntu-latest'
