@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { join } from 'path';
 import * as fs from 'fs'
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -20,6 +21,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   const PORT = process.env.PORT || 5000;
+  app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '../../client', 'build'));
   app.setBaseViewsDir(join(__dirname, '../../client', 'public'));
   app.setViewEngine('html');
