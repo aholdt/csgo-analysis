@@ -7,7 +7,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build && cd apps/demoanapp/client && npm run build",
     "install-build-client": "cd apps/demoanapp/client  && npm install && npm run build",
-    "build-prod": "npm install && npm run build && npm run install-build-client",
+    "build-prod": "npm install && npm run build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start-client-watch": "cd apps/demoanapp/client && npm run start",
     "start-func-watch": "cd functions && npm run start",
