@@ -31,6 +31,7 @@ steps:
     SourceFolder: 'dist'
     Contents: '**'
     TargetFolder: 'output/dist'
+    flattenFolders: true
 
 - task: CopyFiles@2
   inputs:
