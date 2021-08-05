@@ -23,6 +23,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/demoanapp/tsconfig.app.json"
       }
+    },
+    "demoparser": {
+      "type": "library",
+      "root": "libs/demoparser",
+      "entryFile": "index",
+      "sourceRoot": "libs/demoparser/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/demoparser/tsconfig.lib.json"
+      }
     }
   }
 }

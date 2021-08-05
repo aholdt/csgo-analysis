@@ -2,9 +2,9 @@
   "name": "",
   "version": "",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "build:production": "npm run prestart && npm prune --production",
-    "watch": "tsc --w",
+    "watch": "tsc --build --w",
     "prestart": "npm run build && func extensions install",
     "start:host": "func start",
     "start": "npm-run-all --parallel start:host watch",

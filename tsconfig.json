@@ -12,7 +12,20 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "paths": {}
+    "paths": {
+      "@app/demoanapp": [
+        "apps/demoanapp/src"
+      ],
+      "@app/demoanapp/*": [
+        "apps/demoanapp/src/*"
+      ],
+      "@app/demoparser": [
+        "libs/demoparser/src"
+      ],
+      "@app/demoparser/*": [
+        "libs/demoparser/src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"
