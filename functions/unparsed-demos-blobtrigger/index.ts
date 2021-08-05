@@ -6,9 +6,9 @@ import { DemoparserService } from "../../libs/demoparser/src/demoparser.service"
 const blobTrigger: AzureFunction = async function (context: Context): Promise<void> {
     const app = await NestFactory.create(DemoparserModule);
     await app.init();
-    const test = app.get(DemoparserService)
-    console.log("sdfsdsdfsdff");
-    test.parseDemo();
+    const test = app.get(DemoparserService);
+    const buffer = context.bindings.myBlob;
+    await test.parseDemo(buffer);
 };
 
 export default blobTrigger;
