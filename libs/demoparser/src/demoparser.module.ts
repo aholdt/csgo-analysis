@@ -1,17 +1,19 @@
-import { Module } from '@nestjs/common';
-import { DemoparserService } from './demoparser.service';
-import { IEventHandler } from './event-handlers/event-handler-interface';
-import { GameScoresBuilder } from './event-handlers/game-scores-builder';
+import { Module } from "@nestjs/common";
+import { DemoparserService } from "./demoparser.service";
+import { DemoOutputBuilder } from "./event-handlers/demo-output-builder";
+import { GameInfoBuilder } from "./event-handlers/game-info-builder";
+import { RoundReplayBuilder } from "./event-handlers/round-replay-builder";
 
 @Module({
   providers: [
     DemoparserService,
-    GameScoresBuilder,
+    GameInfoBuilder,
+    RoundReplayBuilder,
     {
-      provide: 'eventHandlers',
-      useFactory: (...eventHandlers: IEventHandler[]) => eventHandlers,
-      inject: [GameScoresBuilder],
-    }
+      provide: "demoOutputBuilders",
+      useFactory: (...eventHandlers: DemoOutputBuilder[]) => eventHandlers,
+      inject: [GameInfoBuilder, RoundReplayBuilder],
+    },
   ],
   exports: [DemoparserService],
 })
