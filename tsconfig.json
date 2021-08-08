@@ -13,11 +13,28 @@
     "incremental": true,
     "skipLibCheck": true,
     "paths": {
-      "@app/demoanapp": ["apps/demoanapp/src"],
-      "@app/demoanapp/*": ["apps/demoanapp/src/*"],
-      "@app/demoparser": ["libs/demoparser/src"],
-      "@app/demoparser/*": ["libs/demoparser/src/*"]
+      "@app/demoanapp": [
+        "apps/demoanapp/src"
+      ],
+      "@app/demoanapp/*": [
+        "apps/demoanapp/src/*"
+      ],
+      "@app/demoparser": [
+        "libs/demoparser/src"
+      ],
+      "@app/demoparser/*": [
+        "libs/demoparser/src/*"
+      ],
+      "@app/blob-storage": [
+        "libs/blob-storage/src"
+      ],
+      "@app/blob-storage/*": [
+        "libs/blob-storage/src/*"
+      ]
     }
   },
-  "include": ["libs/**/*/src", "apps/**/*/src"]
+  "include": [
+    "libs/**/*/src",
+    "apps/**/*/src"
+  ]
 }

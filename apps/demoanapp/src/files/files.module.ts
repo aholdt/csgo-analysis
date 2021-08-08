@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
-import { FilesService } from "./files.service";
+import { BlobStorageService } from "libs/blob-storage/src";
 import { FilesController } from "./files.controller";
+import { FilesService } from "./files.service";
 
 @Module({
-  providers: [FilesService],
+  providers: [FilesService, BlobStorageService],
   controllers: [FilesController],
 })
 export class FilesModule {}

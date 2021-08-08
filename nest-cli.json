@@ -32,6 +32,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/demoparser/tsconfig.lib.json"
       }
+    },
+    "blob-storage": {
+      "type": "library",
+      "root": "libs/blob-storage",
+      "entryFile": "index",
+      "sourceRoot": "libs/blob-storage/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/blob-storage/tsconfig.lib.json"
+      }
     }
   }
 }
