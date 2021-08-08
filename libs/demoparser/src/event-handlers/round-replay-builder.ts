@@ -12,15 +12,21 @@ export class RoundReplayBuilder implements DemoOutputBuilder {
 
   initialize(demoFile: DemoFile): void {
     this.demoFile = demoFile;
-    demoFile.gameEvents.on("round_freeze_end", () => this.initializeCurrentRound());
-    demoFile.gameEvents.on("round_officially_ended", () => this.endCurrentRound());
+    demoFile.gameEvents.on("round_freeze_end", () =>
+      this.initializeCurrentRound()
+    );
+    demoFile.gameEvents.on("round_officially_ended", () =>
+      this.endCurrentRound()
+    );
     demoFile.on("tickstart", () => this.registerPositions());
     demoFile.gameEvents.on("player_hurt", (e) => this.onPlayerHurt(e));
     demoFile.gameEvents.on("weapon_fire", (e) => this.onWeaponFire(e));
   }
 
   onWeaponFire(e: IEventWeaponFire): void {
-    const player = this.currentRound.positions.get(this.demoFile.currentTick).filter((x) => x.playerId === e.userid)[0];
+    const player = this.currentRound.positions
+      .get(this.demoFile.currentTick)
+      .filter((x) => x.playerId === e.userid)[0];
     if (player) {
       player.firingWeapon = e.weapon;
     }

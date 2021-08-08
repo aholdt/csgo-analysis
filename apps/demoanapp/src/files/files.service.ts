@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class FilesService {

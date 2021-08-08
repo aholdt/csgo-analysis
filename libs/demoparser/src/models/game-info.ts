@@ -1,4 +1,4 @@
 export class GameInfo {
-    tickRate: number;
-    map: string;
+  tickRate: number;
+  map: string;
 }

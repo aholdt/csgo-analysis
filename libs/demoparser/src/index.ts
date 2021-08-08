@@ -1,2 +1,2 @@
-export * from './demoparser.module';
-export * from './demoparser.service';
+export * from "./demoparser.module";
+export * from "./demoparser.service";
