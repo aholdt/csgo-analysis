@@ -1,15 +1,33 @@
+import { DemoOutput } from "@app/demoparser/models/demo-output";
 import { AzureFunction, Context } from "@azure/functions";
 import { NestFactory } from "@nestjs/core";
-import { DemoparserModule } from "../../libs/demoparser/src/demoparser.module";
+import { BlobStorageService } from "../../libs/blob-storage/src/blob-storage.service";
 import { DemoparserService } from "../../libs/demoparser/src/demoparser.service";
+import { AppModule } from "./app.module";
 
 const blobTrigger: AzureFunction = async function (context: Context): Promise<void> {
-  const app = await NestFactory.create(DemoparserModule);
-  await app.init();
+  const app = await initApp();
+  const demoOutput = await parseDemo(app, context);
+  await uploadDemoOutput(app, demoOutput);
+};
+export default blobTrigger;
+
+async function uploadDemoOutput(app, demoOutput: DemoOutput) {
+  const blobStorage = app.get(BlobStorageService);
+  for (const roundReplay of demoOutput.roundReplays) {
+    await blobStorage.upload(roundReplay, "round-replays", `${demoOutput.gameInfo.thumbPrint}/${roundReplay.roundNumber}`);
+  }
+}
+
+async function parseDemo(app, context: Context) {
   const demoParser = app.get(DemoparserService);
   const buffer = context.bindings.myBlob;
   const demoOutput = await demoParser.parseDemo(buffer);
-  console.log(demoOutput.roundReplays);
-};
+  return demoOutput;
+}
 
-export default blobTrigger;
+async function initApp() {
+  const app = await NestFactory.create(AppModule);
+  await app.init();
+  return app;
+}

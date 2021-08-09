@@ -2,8 +2,9 @@ export class RoundReplay {
   roundNumber!: number;
   startTick!: number;
   endTick!: number;
-  positions!: Map<number, Position[]>;
-  playersHurt!: PlayerHurt[];
+  positions: Position[] = [];
+  playerShot: PlayerShot[] = [];
+  playersHurt: PlayerHurt[] = [];
 }
 
 export class Kill {
@@ -20,13 +21,15 @@ export class PlayerHurt {
   healthAfterDamage!: number;
 }
 
-export abstract class PlayerEvent {
+export class Position {
+  tick!: number;
   playerId!: number;
   x!: number;
   y!: number;
   z!: number;
   yaw!: number;
-  firingWeapon?: string;
 }
 
-export class Position extends PlayerEvent {}
+export class PlayerShot extends Position {
+  firingWeapon?: string;
+}

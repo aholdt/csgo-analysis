@@ -1,36 +1,32 @@
 import { Injectable } from "@nestjs/common";
-import { DemoFile, IEventPlayerHurt, IEventWeaponFire } from "demofile";
+import { DemoFile, IEventPlayerHurt, IEventWeaponFire, Player } from "demofile";
 import { DemoOutput } from "../models/demo-output";
-import { PlayerHurt, Position, RoundReplay } from "../models/round-replays";
+import { PlayerHurt, PlayerShot, Position, RoundReplay } from "../models/round-replays";
 import { DemoOutputBuilder } from "./demo-output-builder";
 
 @Injectable()
 export class RoundReplayBuilder implements DemoOutputBuilder {
+  tickModulus = 64;
   currentRound: RoundReplay;
-  roundReplays: Map<string, RoundReplay> = new Map<string, RoundReplay>();
+  roundReplays: Map<number, RoundReplay> = new Map<number, RoundReplay>();
   demoFile!: DemoFile;
 
   initialize(demoFile: DemoFile): void {
     this.demoFile = demoFile;
-    demoFile.gameEvents.on("round_freeze_end", () =>
-      this.initializeCurrentRound()
-    );
-    demoFile.gameEvents.on("round_officially_ended", () =>
-      this.endCurrentRound()
-    );
+    demoFile.gameEvents.on("round_freeze_end", () => this.initializeCurrentRound());
+    demoFile.gameEvents.on("round_officially_ended", () => this.endCurrentRound());
     demoFile.on("tickstart", () => this.registerPositions());
     demoFile.gameEvents.on("player_hurt", (e) => this.onPlayerHurt(e));
     demoFile.gameEvents.on("weapon_fire", (e) => this.onWeaponFire(e));
   }
 
   onWeaponFire(e: IEventWeaponFire): void {
-    const player = this.currentRound.positions
-      .get(this.demoFile.currentTick)
-      .filter((x) => x.playerId === e.userid)[0];
-    if (player) {
-      player.firingWeapon = e.weapon;
-    }
+    const player = this.demoFile.players.find((x) => x.userId === e.userid);
+    const playerShot = this.getPlayerPosition(player) as PlayerShot;
+    playerShot.firingWeapon = e.weapon;
+    this.currentRound.playerShot.push(playerShot);
   }
+
   onPlayerHurt(e: IEventPlayerHurt): void {
     this.currentRound.playersHurt.push(<PlayerHurt>{
       tick: this.demoFile.currentTick,
@@ -40,23 +36,26 @@ export class RoundReplayBuilder implements DemoOutputBuilder {
   }
 
   registerPositions(): void {
-    if (!this.currentRound) {
+    if (!this.currentRound || this.demoFile.currentTick % this.tickModulus) {
       return;
     }
 
-    const positions: Position[] = [];
     for (const player of this.demoFile.players) {
       if (player.isAlive) {
-        positions.push(<Position>{
-          playerId: player.userId,
-          x: player.position.x,
-          y: player.position.y,
-          z: player.position.z,
-          yaw: player.eyeAngles.yaw,
-        });
+        this.currentRound.positions.push(this.getPlayerPosition(player));
       }
     }
-    this.currentRound.positions.set(this.demoFile.currentTick, positions);
+  }
+
+  getPlayerPosition(player: Player): Position {
+    return <Position>{
+      tick: this.demoFile.currentTick,
+      playerId: player.userId,
+      x: player.position.x,
+      y: player.position.y,
+      z: player.position.z,
+      yaw: player.eyeAngles.yaw,
+    };
   }
 
   initializeCurrentRound(): void {
@@ -64,14 +63,16 @@ export class RoundReplayBuilder implements DemoOutputBuilder {
       startTick: this.demoFile.currentTick,
       roundNumber: this.demoFile.gameRules.roundsPlayed + 1,
       endTick: this.demoFile.currentTick,
-      positions: new Map<number, Position[]>(),
+      positions: [],
       playersHurt: [],
+      playerShot: [],
     };
   }
 
   endCurrentRound(): void {
     this.currentRound.endTick = this.demoFile.currentTick;
-    this.roundReplays[this.currentRound.roundNumber] = this.currentRound;
+    this.roundReplays.set(this.currentRound.roundNumber, this.currentRound);
+    this.currentRound = undefined;
   }
 
   addToOutput(demoOutput: DemoOutput): void {

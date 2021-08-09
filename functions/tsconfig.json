@@ -6,7 +6,5 @@
   },
   "include": ["**/*"],
   "exclude": ["node_modules"],
-  "references": [
-    { "path": "../libs/demoparser/tsconfig.lib.json" }
-  ]
+  "references": [{ "path": "../libs/demoparser/tsconfig.lib.json" }, { "path": "../libs/blob-storage/tsconfig.lib.json" }]
 }
