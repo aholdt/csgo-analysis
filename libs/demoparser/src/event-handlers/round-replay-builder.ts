@@ -59,7 +59,6 @@ export class RoundReplayBuilder implements DemoOutputBuilder {
     const utilityIndex = this.utilityModelNames.findIndex((x) => x === entity.modelName);
     if (utilityIndex >= 0) {
       const mappedUtility = this.utilities[utilityIndex];
-      console.log(mappedUtility);
       const position = <Position>{
         x: entity.position.x,
         y: entity.position.y,
