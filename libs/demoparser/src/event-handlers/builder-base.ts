@@ -32,10 +32,6 @@ export abstract class DemoBuilderBase<T> implements DemoOutputBuilder {
     this.current = JSON.parse(JSON.stringify(this.emptyModel)) as T;
   }
 
-  create<T>(type: new () => T): T {
-    return new type();
-  }
-
   isUtility(weapon: string): boolean {
     return this.utilities.findIndex((x) => x === weapon) >= 0;
   }
