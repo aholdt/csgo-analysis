@@ -1,16 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile, TeamNumber } from "demofile";
-import { DemoOutput } from "../models/demo-output";
-import { GameInfo } from "../models/game-info";
-import { DemoOutputBuilder } from "./demo-output-builder";
+import { ParsedDemoResult } from "../models/parsed-demo-result";
+import { GameInfo } from "../public-models/game-info";
+import { DemoBuilderBase } from "./builder-base";
 
 @Injectable()
-export class GameInfoBuilder implements DemoOutputBuilder {
-  private demoFile!: DemoFile;
+export class GameInfoBuilder extends DemoBuilderBase<GameInfo> {
+  constructor() {
+    super(new GameInfo());
+  }
   gameInfo: GameInfo;
 
   initialize(demoFile: DemoFile): void {
-    this.demoFile = demoFile;
+    super.initialize(demoFile);
     demoFile.gameEvents.on("cs_win_panel_match", (_) => this.onGameEnd());
   }
 
@@ -32,7 +34,7 @@ export class GameInfoBuilder implements DemoOutputBuilder {
     };
   }
 
-  addToOutput(demoOutput: DemoOutput): void {
-    demoOutput.gameInfo = this.gameInfo;
+  addToResult(demoResult: ParsedDemoResult): void {
+    demoResult.gameInfo = this.gameInfo;
   }
 }

@@ -1,4 +1,4 @@
-import { DemoOutput } from "@app/demoparser/models/demo-output";
+import { DemoOutput } from "@app/demoparser/public-models/demo-output";
 import { AzureFunction, Context } from "@azure/functions";
 import { NestFactory } from "@nestjs/core";
 import { BlobStorageService } from "../../libs/blob-storage/src/blob-storage.service";

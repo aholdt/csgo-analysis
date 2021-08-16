@@ -1,4 +1,4 @@
-import { RoundReplay } from "@app/demoparser/models/round-replays";
+import { RoundReplay } from "@app/demoparser/public-models/round-replays";
 import { Controller, Get, Param } from "@nestjs/common";
 import { RoundReplaysService } from "./round-replays.service";
 

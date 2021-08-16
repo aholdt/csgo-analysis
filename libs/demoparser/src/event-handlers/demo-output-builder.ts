@@ -1,7 +1,7 @@
 import { DemoFile } from "demofile";
-import { DemoOutput } from "../models/demo-output";
+import { ParsedDemoResult } from "../models/parsed-demo-result";
 
 export interface DemoOutputBuilder {
   initialize(demoFile: DemoFile): void;
-  addToOutput(demoOutput: DemoOutput): void;
+  addToResult(demoResult: ParsedDemoResult): void;
 }
