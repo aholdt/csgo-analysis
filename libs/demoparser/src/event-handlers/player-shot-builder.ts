@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventWeaponFire } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { PlayerShot } from "../models/player-shot";
-import { DemoBuilderBase } from "./builder-base";
+import { RoundBuilderBase } from "./round-builder-base";
 
 @Injectable()
-export class PlayerShotBuilder extends DemoBuilderBase<PlayerShot[]> {
+export class PlayerShotBuilder extends RoundBuilderBase<PlayerShot[]> {
   constructor() {
     super(new Array<PlayerShot>());
   }
@@ -15,7 +15,7 @@ export class PlayerShotBuilder extends DemoBuilderBase<PlayerShot[]> {
   }
 
   addToResult(demoResult: ParsedDemoResult): void {
-    demoResult.playerShots = this.result;
+    demoResult.playerShots = this.roundResults;
   }
 
   onWeaponFire(e: IEventWeaponFire): void {
@@ -24,7 +24,7 @@ export class PlayerShotBuilder extends DemoBuilderBase<PlayerShot[]> {
     const weaponWithoutPrefix = e.weapon.replace("weapon_", "");
     playerShot.firingWeapon = weaponWithoutPrefix;
     if (!this.isUtility(weaponWithoutPrefix) && weaponWithoutPrefix.indexOf("knife") == -1) {
-      this.current.push(playerShot);
+      this.currentRound.push(playerShot);
     }
   }
 }

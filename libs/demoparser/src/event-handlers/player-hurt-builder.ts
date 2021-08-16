@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventPlayerHurt } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { PlayerHurt } from "../models/player-hurt";
-import { DemoBuilderBase } from "./builder-base";
+import { RoundBuilderBase } from "./round-builder-base";
 
 @Injectable()
-export class PlayerHurtBuilder extends DemoBuilderBase<PlayerHurt[]> {
+export class PlayerHurtBuilder extends RoundBuilderBase<PlayerHurt[]> {
   constructor() {
     super(new Array<PlayerHurt>());
   }
@@ -14,11 +14,11 @@ export class PlayerHurtBuilder extends DemoBuilderBase<PlayerHurt[]> {
     demoFile.gameEvents.on("player_hurt", (e) => this.onPlayerHurt(e));
   }
   addToResult(demoResult: ParsedDemoResult): void {
-    demoResult.playersHurt = this.result;
+    demoResult.playersHurt = this.roundResults;
   }
 
   onPlayerHurt(e: IEventPlayerHurt): void {
-    this.current.push(<PlayerHurt>{
+    this.currentRound.push(<PlayerHurt>{
       tick: this.demoFile.currentTick,
       healthAfterDamage: e.health,
       targetPlayerId: e.userid,

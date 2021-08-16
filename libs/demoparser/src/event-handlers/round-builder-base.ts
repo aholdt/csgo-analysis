@@ -4,18 +4,18 @@ import { PlayerPosition } from "../models/positions";
 import { UtilityType } from "../models/utility";
 import { DemoOutputBuilder } from "./demo-output-builder";
 
-export abstract class DemoBuilderBase<T> implements DemoOutputBuilder {
+export abstract class RoundBuilderBase<T> implements DemoOutputBuilder {
   tickModulus = 64;
   demoFile!: DemoFile;
-  current: T;
-  result: Map<number, T> = new Map<number, T>();
+  currentRound: T;
+  roundResults: Map<number, T> = new Map<number, T>();
 
   utilities: UtilityType[] = ["hegrenade", "smokegrenade", "flashbang", "decoy", "molotov", "incgrenade"];
   emptyModel: T;
 
   constructor(ctor: T) {
     this.emptyModel = ctor;
-    this.current = JSON.parse(JSON.stringify(ctor)) as T;
+    this.currentRound = JSON.parse(JSON.stringify(ctor)) as T;
   }
 
   initialize(demoFile: DemoFile): void {
@@ -25,11 +25,11 @@ export abstract class DemoBuilderBase<T> implements DemoOutputBuilder {
   }
 
   endCurrentRound(): void {
-    this.result.set(this.demoFile.gameRules.roundsPlayed + 1, this.current);
+    this.roundResults.set(this.demoFile.gameRules.roundsPlayed + 1, this.currentRound);
   }
 
   initializeCurrentRound(): void {
-    this.current = JSON.parse(JSON.stringify(this.emptyModel)) as T;
+    this.currentRound = JSON.parse(JSON.stringify(this.emptyModel)) as T;
   }
 
   isUtility(weapon: string): boolean {

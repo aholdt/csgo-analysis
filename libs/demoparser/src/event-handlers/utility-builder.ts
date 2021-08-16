@@ -11,10 +11,10 @@ import {
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { Position } from "../models/positions";
 import { Utility, UtilityType } from "../models/utility";
-import { DemoBuilderBase } from "./builder-base";
+import { RoundBuilderBase } from "./round-builder-base";
 
 @Injectable()
-export class UtilityBuilder extends DemoBuilderBase<Utility[]> {
+export class UtilityBuilder extends RoundBuilderBase<Utility[]> {
   constructor() {
     super(new Array<Utility>());
   }
@@ -38,7 +38,7 @@ export class UtilityBuilder extends DemoBuilderBase<Utility[]> {
   }
 
   addToResult(demoResult: ParsedDemoResult): void {
-    demoResult.utilities = this.result;
+    demoResult.utilities = this.roundResults;
   }
 
   onCreate(e: IEntityCreationEvent): void {
@@ -60,7 +60,7 @@ export class UtilityBuilder extends DemoBuilderBase<Utility[]> {
   }
 
   onUtilityDetonate(e: IEventHegrenadeDetonate | IEventFlashbangDetonate | IEventDecoyStarted | IEventSmokegrenadeDetonate): void {
-    const utility = this.current.find((x) => x.entityId === e.entityid);
+    const utility = this.currentRound.find((x) => x.entityId === e.entityid);
     utility.tickDetonated = this.demoFile.currentTick;
     utility.playerId = e.userid;
     const thrownTo = <Position>{ x: e.x, y: e.y, z: e.z };
@@ -69,7 +69,7 @@ export class UtilityBuilder extends DemoBuilderBase<Utility[]> {
   }
 
   utilityThrown(utilityType: UtilityType, position: Position, entityId: number): void {
-    this.current.push(<Utility>{
+    this.currentRound.push(<Utility>{
       tickThrown: this.demoFile.currentTick,
       throwFrom: position,
       type: utilityType,
