@@ -1,7 +1,7 @@
 export class Kill {
   tick!: number;
-  killer!: string;
-  assister!: string;
-  victim!: string;
+  killer!: number;
+  assister!: number;
+  victim!: number;
   weapon!: string;
 }
