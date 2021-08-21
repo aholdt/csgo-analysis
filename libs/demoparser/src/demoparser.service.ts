@@ -3,7 +3,6 @@ import { DemoFile } from "demofile";
 import { DemoOutputBuilder } from "./event-handlers/demo-output-builder";
 import { ParsedDemoResult } from "./models/parsed-demo-result";
 import { DemoOutput } from "./public-models/demo-output";
-import { RoundReplay } from "./public-models/round-replays";
 
 @Injectable()
 export class DemoparserService {
@@ -26,7 +25,7 @@ export class DemoparserService {
           this.demoOutputBuilders.forEach((builder) => {
             builder.addToResult(demoResult);
           });
-          const demoOutput = this.mapToOutput(demoResult);
+          const demoOutput = demoResult.mapToOutput();
           resolve(demoOutput);
         });
 
@@ -35,23 +34,5 @@ export class DemoparserService {
         reject(e);
       }
     });
-  }
-
-  mapToOutput(demoResult: ParsedDemoResult): DemoOutput {
-    const roundReplays: RoundReplay[] = [];
-    for (let index = 1; index < demoResult.positions.size; index++) {
-      roundReplays.push(<RoundReplay>{
-        roundNumber: index,
-        positions: demoResult.positions.get(index),
-        playerShot: demoResult.playerShots.get(index),
-        playersHurt: demoResult.playersHurt.get(index),
-        utilities: demoResult.utilities.get(index),
-      });
-    }
-
-    return <DemoOutput>{
-      gameInfo: demoResult.gameInfo,
-      roundReplays: roundReplays,
-    };
   }
 }
