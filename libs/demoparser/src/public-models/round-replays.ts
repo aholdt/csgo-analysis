@@ -1,3 +1,4 @@
+import { Inventory } from "../models/inventory";
 import { Kill } from "../models/kills";
 import { PlayerHurt } from "../models/player-hurt";
 import { PlayerShot } from "../models/player-shot";
@@ -13,4 +14,5 @@ export class RoundReplay {
   playersHurt: PlayerHurt[] = [];
   utilities: Utility[] = [];
   kills: Kill[] = [];
+  inventories: Inventory[] = [];
 }

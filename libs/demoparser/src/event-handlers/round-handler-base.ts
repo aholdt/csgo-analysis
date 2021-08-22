@@ -25,7 +25,7 @@ export abstract class RoundHandlerBase<T> implements DemoOutputHandler {
   }
 
   endCurrentRound(): void {
-    this.roundResults.set(this.demoFile.gameRules.roundsPlayed + 1, this.currentRound);
+    this.roundResults.set(this.demoFile.gameRules.roundsPlayed, this.currentRound);
   }
 
   initializeCurrentRound(): void {

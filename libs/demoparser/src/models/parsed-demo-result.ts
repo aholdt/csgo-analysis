@@ -1,6 +1,7 @@
 import { DemoOutput } from "../public-models/demo-output";
 import { GameInfo } from "../public-models/game-info";
 import { RoundReplay } from "../public-models/round-replays";
+import { Inventory } from "./inventory";
 import { Kill } from "./kills";
 import { PlayerHurt } from "./player-hurt";
 import { PlayerShot } from "./player-shot";
@@ -13,6 +14,7 @@ export class ParsedDemoResult {
   public playersHurt: Map<number, PlayerHurt[]> = new Map<number, PlayerHurt[]>();
   public playerShots: Map<number, PlayerShot[]> = new Map<number, PlayerShot[]>();
   public kills: Map<number, Kill[]> = new Map<number, Kill[]>();
+  public inventories: Map<number, Inventory[]> = new Map<number, Inventory[]>();
   public gameInfo: GameInfo;
 
   mapToOutput(): DemoOutput {
@@ -25,6 +27,7 @@ export class ParsedDemoResult {
         playersHurt: this.playersHurt.get(index),
         utilities: this.utilities.get(index),
         kills: this.kills.get(index),
+        inventories: this.inventories.get(index),
       });
     }
 
