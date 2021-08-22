@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventPlayerDeath } from "demofile";
 import { Kill } from "../models/kills";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { RoundBuilderBase } from "./round-builder-base";
+import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
-export class KillBuilder extends RoundBuilderBase<Kill[]> {
+export class KillHandler extends RoundHandlerBase<Kill[]> {
   constructor() {
     super(new Array<Kill>());
   }

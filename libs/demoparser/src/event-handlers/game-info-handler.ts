@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { DemoFile, TeamNumber } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { GameInfo } from "../public-models/game-info";
-import { DemoOutputBuilder } from "./demo-output-builder";
+import { DemoOutputHandler } from "./demo-output-handler";
 
 @Injectable()
-export class GameInfoBuilder implements DemoOutputBuilder {
+export class GameInfoHandler implements DemoOutputHandler {
   gameInfo: GameInfo;
   demoFile: DemoFile;
 

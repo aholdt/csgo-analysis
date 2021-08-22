@@ -11,10 +11,10 @@ import {
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { Position } from "../models/positions";
 import { Utility, UtilityType } from "../models/utility";
-import { RoundBuilderBase } from "./round-builder-base";
+import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
-export class UtilityBuilder extends RoundBuilderBase<Utility[]> {
+export class UtilityHandler extends RoundHandlerBase<Utility[]> {
   constructor() {
     super(new Array<Utility>());
   }

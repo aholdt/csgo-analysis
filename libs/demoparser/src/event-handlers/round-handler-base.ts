@@ -2,9 +2,9 @@ import { DemoFile, Player } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { PlayerPosition } from "../models/positions";
 import { UtilityType } from "../models/utility";
-import { DemoOutputBuilder } from "./demo-output-builder";
+import { DemoOutputHandler } from "./demo-output-handler";
 
-export abstract class RoundBuilderBase<T> implements DemoOutputBuilder {
+export abstract class RoundHandlerBase<T> implements DemoOutputHandler {
   tickModulus = 64;
   demoFile!: DemoFile;
   currentRound: T;

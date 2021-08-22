@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { DemoFile } from "demofile";
-import { DemoOutputBuilder } from "./event-handlers/demo-output-builder";
+import { DemoOutputHandler } from "./event-handlers/demo-output-handler";
 import { ParsedDemoResult } from "./models/parsed-demo-result";
 import { DemoOutput } from "./public-models/demo-output";
 
@@ -8,7 +8,7 @@ import { DemoOutput } from "./public-models/demo-output";
 export class DemoparserService {
   constructor(
     @Inject("demoOutputBuilders")
-    private readonly demoOutputBuilders: DemoOutputBuilder[]
+    private readonly demoOutputBuilders: DemoOutputHandler[]
   ) {}
 
   public parseDemo(buffer: Buffer): Promise<DemoOutput> {

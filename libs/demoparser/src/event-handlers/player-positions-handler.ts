@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { DemoFile } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { Position } from "../models/positions";
-import { RoundBuilderBase } from "./round-builder-base";
+import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
-export class PlayerPositionsBuilder extends RoundBuilderBase<Position[]> {
+export class PlayerPositionsHandler extends RoundHandlerBase<Position[]> {
   constructor() {
     super(new Array<Position>());
   }

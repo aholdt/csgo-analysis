@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventWeaponFire } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { PlayerShot } from "../models/player-shot";
-import { RoundBuilderBase } from "./round-builder-base";
+import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
-export class PlayerShotBuilder extends RoundBuilderBase<PlayerShot[]> {
+export class PlayerShotHandler extends RoundHandlerBase<PlayerShot[]> {
   constructor() {
     super(new Array<PlayerShot>());
   }
