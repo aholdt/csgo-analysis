@@ -20,7 +20,7 @@ export class DemoparserService {
           builder.initialize(demoFile);
         });
 
-        demoFile.on("end", (_) => {
+        demoFile.on("end", () => {
           const demoResult = new ParsedDemoResult();
           this.demoOutputBuilders.forEach((builder) => {
             builder.addToResult(demoResult);

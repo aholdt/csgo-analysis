@@ -11,7 +11,7 @@ export class GameInfoHandler implements DemoOutputHandler {
 
   initialize(demoFile: DemoFile): void {
     this.demoFile = demoFile;
-    demoFile.gameEvents.on("cs_win_panel_match", (_) => this.onGameEnd());
+    demoFile.gameEvents.on("cs_win_panel_match", () => this.onGameEnd());
   }
 
   onGameEnd(): void {

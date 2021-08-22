@@ -22,7 +22,7 @@ export class BombHandler extends RoundHandlerBase<BombEvent[]> {
     demoFile.gameEvents.on("bomb_exploded", (e) => this.onBombEvent(e.userid, "bomb_exploded"));
   }
 
-  getSite(userId: number) {
+  getSite(userId: number): string {
     const player = this.demoFile.entities.getByUserId(userId);
     return player.placeName;
   }
