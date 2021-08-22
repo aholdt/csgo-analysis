@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { DemoparserService } from "./demoparser.service";
+import { BombHandler } from "./event-handlers/bomb-handler";
 import { DemoOutputHandler } from "./event-handlers/demo-output-handler";
 import { GameInfoHandler } from "./event-handlers/game-info-handler";
 import { InventoryHandler } from "./event-handlers/inventory-handler";
@@ -19,6 +20,7 @@ import { UtilityHandler } from "./event-handlers/utility-handler";
     UtilityHandler,
     KillHandler,
     InventoryHandler,
+    BombHandler,
     {
       provide: "demoOutputBuilders",
       useFactory: (...eventHandlers: DemoOutputHandler[]) => eventHandlers,
@@ -31,6 +33,7 @@ import { UtilityHandler } from "./event-handlers/utility-handler";
         UtilityHandler,
         KillHandler,
         InventoryHandler,
+        BombHandler,
       ],
     },
   ],

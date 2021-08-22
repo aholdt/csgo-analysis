@@ -1,3 +1,4 @@
+import { BombEvent } from "../models/bomb-event";
 import { Inventory } from "../models/inventory";
 import { Kill } from "../models/kills";
 import { PlayerHurt } from "../models/player-hurt";
@@ -15,4 +16,5 @@ export class RoundReplay {
   utilities: Utility[] = [];
   kills: Kill[] = [];
   inventories: Inventory[] = [];
+  bombEvents: BombEvent[] = [];
 }
