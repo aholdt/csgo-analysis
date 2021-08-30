@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventItemPickup, IEventItemRemove } from "demofile";
-import { Inventory } from "../models/inventory";
+import { Inventory } from "../models/inventory.entity";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { RoundHandlerBase } from "./round-handler-base";
 

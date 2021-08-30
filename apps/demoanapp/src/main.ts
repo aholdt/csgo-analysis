@@ -1,10 +1,10 @@
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "./app.module";
-import { join } from "path";
 import * as fs from "fs";
-import { ValidationPipe } from "@nestjs/common";
+import { join } from "path";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -14,6 +14,8 @@ async function bootstrap() {
     .setDescription("The cats API description")
     .setVersion("1.0")
     .addTag("cats")
+    .addTag("roundreplays")
+    .addTag("files")
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventWeaponFire } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { PlayerShot } from "../models/player-shot";
+import { PlayerShot } from "../models/player-shot.entity";
 import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()

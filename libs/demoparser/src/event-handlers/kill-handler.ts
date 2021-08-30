@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile, IEventPlayerDeath } from "demofile";
-import { Kill } from "../models/kills";
+import { Kill } from "../models/kills.entity";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { RoundHandlerBase } from "./round-handler-base";
 

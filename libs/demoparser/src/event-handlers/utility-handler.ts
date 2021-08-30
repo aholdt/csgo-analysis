@@ -9,8 +9,8 @@ import {
   IEventSmokegrenadeDetonate,
 } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { Position } from "../models/positions";
-import { Utility, UtilityType } from "../models/utility";
+import { Position } from "../models/position.entity";
+import { Utility, UtilityType } from "../models/utility.entity";
 import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()

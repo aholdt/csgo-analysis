@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "generate-api": "node node_modules/swagger-react-generator -I server/swagger.json -O client/src/generated-api/index.ts -T \"ts\"",
+    "generate-api": "node node_modules/swagger-react-generator -I swagger.json -O apps/demoanapp/client/src/generated-api/index.ts -T \"ts\"",
     "start:azure": "npm run build && func host start"
   },
   "dependencies": {

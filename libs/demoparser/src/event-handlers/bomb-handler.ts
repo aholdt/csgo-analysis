@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile } from "demofile";
-import { BombEvent } from "../models/bomb-event";
+import { BombEvent } from "../models/bomb-event.entity";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { Position } from "../models/positions";
+import { Position } from "../models/position.entity";
 import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()

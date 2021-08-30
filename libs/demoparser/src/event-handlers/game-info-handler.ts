@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile, TeamNumber } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { GameInfo } from "../public-models/game-info";
+import { GameInfo } from "../public-models/game-info.entity";
 import { DemoOutputHandler } from "./demo-output-handler";
 
 @Injectable()

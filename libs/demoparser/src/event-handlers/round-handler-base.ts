@@ -1,7 +1,7 @@
 import { DemoFile, Player } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { PlayerPosition } from "../models/positions";
-import { UtilityType } from "../models/utility";
+import { PlayerPosition } from "../models/position.entity";
+import { UtilityType } from "../models/utility.entity";
 import { DemoOutputHandler } from "./demo-output-handler";
 
 export abstract class RoundHandlerBase<T> implements DemoOutputHandler {

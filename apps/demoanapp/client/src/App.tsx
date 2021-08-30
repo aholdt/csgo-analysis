@@ -1,34 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { CatsApi } from './generated-api';
+import React from "react";
+import "./App.css";
+import dust2 from "./de_dust2_textured.png";
+import { RoundreplaysApi, RoundreplaysGameIdRoundNumberGetArgs } from "./generated-api";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img src={dust2} alt="D2" width="1024" height="1024"></img>
+      <canvas width="1024" height="1024"></canvas>
     </div>
   );
 }
 
-  const sayHello = async () => {
-    const catsApi = new CatsApi(undefined);
-    const body = await catsApi.catsIdGet({id:"0"});
-    console.log(body);
-  };
-  sayHello();
+const getRound = async () => {
+  const catsApi = new RoundreplaysApi(undefined);
+  const args = new RoundreplaysGameIdRoundNumberGetArgs({ gameId: "HL2DEMO", roundNumber: 1 });
+  const round = await catsApi.roundreplaysGameIdRoundNumberGet(args);
+  console.log(round);
+};
+getRound();
 
 export default App;

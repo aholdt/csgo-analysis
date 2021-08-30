@@ -1,15 +1,9 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CatsService } from "./cats.service";
 import { CreateCatDto } from "./dto/create-cat.dto";
 import { Cat } from "./entities/cat.entity";
 
-@ApiBearerAuth()
 @ApiTags("cats")
 @Controller("cats")
 export class CatsController {

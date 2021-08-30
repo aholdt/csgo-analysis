@@ -1,4 +1,4 @@
-import { Position } from "./positions";
+import { Position } from "./position.entity";
 
 export class BombEvent {
   type:

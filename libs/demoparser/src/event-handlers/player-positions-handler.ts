@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
-import { Position } from "../models/positions";
+import { Position } from "../models/position.entity";
 import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
