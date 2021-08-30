@@ -12,5 +12,22 @@
     "source.organizeImports": true,
     "source.sortMembers": true
   },
-  "prettier.printWidth": 140
+  "prettier.printWidth": 140,
+  "cSpell.words": [
+    "Hegrenade",
+    "begindefuse",
+    "beginplant",
+    "demoanapp",
+    "demofile",
+    "demoparser",
+    "entityid",
+    "flashbang",
+    "fraggrenade",
+    "incendiarygrenade",
+    "incgrenade",
+    "nestjs",
+    "smokegrenade",
+    "tickstart",
+    "userid"
+  ]
 }
