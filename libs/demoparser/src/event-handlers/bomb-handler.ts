@@ -20,6 +20,25 @@ export class BombHandler extends RoundHandlerBase<BombEvent[]> {
     demoFile.gameEvents.on("bomb_begindefuse", (e) => this.onBombEvent(e.userid, "bomb_begindefuse"));
     demoFile.gameEvents.on("bomb_defused", (e) => this.onBombEvent(e.userid, "bomb_defused"));
     demoFile.gameEvents.on("bomb_exploded", (e) => this.onBombEvent(e.userid, "bomb_exploded"));
+    demoFile.on("tickstart", () => this.hasPlayerStoppedDefusing());
+  }
+
+  hasPlayerStoppedDefusing(): void {
+    const latestDefuseEvent = this.currentRound[this.currentRound.length - 1];
+    const defuseStarted = latestDefuseEvent.type === "bomb_begindefuse";
+    if (!defuseStarted) {
+      return;
+    }
+
+    const player = this.demoFile.entities.getByUserId(latestDefuseEvent.userId);
+    if (!player.isDefusing) {
+      this.currentRound.push(<BombEvent>{
+        tick: this.demoFile.currentTick,
+        position: new Position(this.demoFile.currentTick, player.position),
+        type: "bomb_canceldefuse",
+        userId: player.userId,
+      });
+    }
   }
 
   getSite(userId: number): string {
