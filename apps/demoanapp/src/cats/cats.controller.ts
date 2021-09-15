@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { AzureADGuard } from "../auth/azure-ad.guard";
 import { CatsService } from "./cats.service";
 import { CreateCatDto } from "./dto/create-cat.dto";
 import { Cat } from "./entities/cat.entity";
 
+@UseGuards(AzureADGuard)
 @ApiTags("cats")
 @Controller("cats")
 export class CatsController {

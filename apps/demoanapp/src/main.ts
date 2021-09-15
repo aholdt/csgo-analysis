@@ -27,6 +27,8 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, "../client", "build"));
   app.setBaseViewsDir(join(__dirname, "../client", "public"));
   app.setViewEngine("html");
+  app.enableCors();
+
   await app.listen(PORT);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
