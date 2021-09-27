@@ -20,14 +20,13 @@ if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0
   msalInstance.setActiveAccount(msalInstance.getAllAccounts()[0]);
 }
 var request = {
-  scopes: ["User.Read"],
+  scopes: ["api://7d74172c-4113-400f-8ea2-dbecc67a52e9/demoan"],
 };
-console.log("ey");
 msalInstance
   .acquireTokenSilent(request)
   .then((tokenResponse) => {
     const roundReplaysClient = new RoundreplaysApi({
-      headers: { authorization: "Bearer " + tokenResponse.accessToken },
+      headers: { Authorization: "Bearer " + tokenResponse.accessToken },
     });
     const args = new RoundreplaysGameIdRoundNumberGetArgs({ gameId: "HL2DEMO", roundNumber: 1 });
     roundReplaysClient.roundreplaysGameIdRoundNumberGet(args);
