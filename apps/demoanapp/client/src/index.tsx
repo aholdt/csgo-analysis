@@ -5,11 +5,12 @@ import {
   InteractionRequiredAuthError,
   PublicClientApplication,
 } from "@azure/msal-browser";
+import { AuthenticatedTemplate, MsalProvider } from "@azure/msal-react";
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { msalConfig } from "./auth-config";
-import { RoundreplaysApi, RoundreplaysGameIdRoundNumberGetArgs } from "./generated-api";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
@@ -25,11 +26,19 @@ var request = {
 msalInstance
   .acquireTokenSilent(request)
   .then((tokenResponse) => {
-    const roundReplaysClient = new RoundreplaysApi({
-      headers: { Authorization: "Bearer " + tokenResponse.accessToken },
-    });
-    const args = new RoundreplaysGameIdRoundNumberGetArgs({ gameId: "HL2DEMO", roundNumber: 1 });
-    roundReplaysClient.roundreplaysGameIdRoundNumberGet(args);
+    axios.defaults.headers.post["Content-Type"] = "application/json";
+    axios.defaults.headers.common["Authorization"] = "Bearer " + tokenResponse.accessToken;
+    axios.interceptors.request.use(
+      (config) => {
+        if (!config.headers.Authorization) {
+          config.headers.Authorization = `Bearer ${tokenResponse.accessToken}`;
+        }
+
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+    renderApp();
   })
   .catch(async (error) => {
     if (error instanceof InteractionRequiredAuthError) {
@@ -48,15 +57,21 @@ msalInstance.addEventCallback((event) => {
     if (payload.account) {
       msalInstance.setActiveAccount(payload.account);
     }
+    renderApp();
   }
 });
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App pca={msalInstance} />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+function renderApp() {
+  ReactDOM.render(
+    <React.StrictMode>
+      <MsalProvider instance={msalInstance}>
+        <AuthenticatedTemplate>
+          <App />
+        </AuthenticatedTemplate>
+      </MsalProvider>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
