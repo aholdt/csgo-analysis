@@ -6,8 +6,7 @@ import { RoundreplaysApi } from "./generated-api";
 function App() {
   useEffect(() => {
     const getRound = async () => {
-      console.log("getR");
-      const roundReplaysClient = new RoundreplaysApi(undefined, "http://localhost:3000");
+      const roundReplaysClient = new RoundreplaysApi();
       const round = await roundReplaysClient.roundReplaysControllerGetRoundReplay("HL2DEMO", 1);
       console.log(round);
     };
