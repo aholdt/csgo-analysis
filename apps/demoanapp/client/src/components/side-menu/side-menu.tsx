@@ -1,4 +1,3 @@
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -35,9 +34,7 @@ export default function SideMenu(props: any) {
           {Routes.map((route, key) => (
             <NavLink to={route.path} style={{ textDecoration: "none" }} key={key}>
               <ListItem button key={route.sidebarName} selected={activeRoute(route.path)}>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
+                <ListItemIcon>{route.icon}</ListItemIcon>
                 <ListItemText primary={route.sidebarName} />
               </ListItem>
             </NavLink>
