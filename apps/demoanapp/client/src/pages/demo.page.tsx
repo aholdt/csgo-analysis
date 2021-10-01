@@ -44,8 +44,7 @@ const data = [
 ];
 
 const DemoPage: React.FC = () => {
-  console.log(MUIDataTable);
-  return <MUIDataTable title={"Employee List"} data={data} columns={columns} />;
+  return <MUIDataTable title={"Employee List"} data={data} columns={columns} options={{ tableBodyHeight: "100%" }} />;
 };
 
 export default DemoPage;

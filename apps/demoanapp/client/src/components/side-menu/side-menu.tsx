@@ -1,3 +1,4 @@
+import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -11,7 +12,6 @@ import Routes from "../../Routes";
 
 export default function SideMenu(props: any) {
   const activeRoute = (routeName: any) => {
-    console.log(props);
     return props.location?.pathname === routeName ? true : false;
   };
 
@@ -34,7 +34,9 @@ export default function SideMenu(props: any) {
           {Routes.map((route, key) => (
             <NavLink to={route.path} style={{ textDecoration: "none" }} key={key}>
               <ListItem button key={route.sidebarName} selected={activeRoute(route.path)}>
-                <ListItemIcon>{route.icon}</ListItemIcon>
+                <ListItemIcon>
+                  <AddIcon />
+                </ListItemIcon>
                 <ListItemText primary={route.sidebarName} />
               </ListItem>
             </NavLink>
