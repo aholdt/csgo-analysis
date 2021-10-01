@@ -1,4 +1,4 @@
-import { MUIDataTable } from "mui-datatables";
+import MUIDataTable from "mui-datatables";
 import React from "react";
 
 const columns = [
@@ -45,7 +45,7 @@ const data = [
 
 const DemoPage: React.FC = () => {
   console.log(MUIDataTable);
-  return <MUIDataTable title={"Employee List"} data={data} columns={columns} options={{}} />;
+  return <MUIDataTable title={"Employee List"} data={data} columns={columns} />;
 };
 
 export default DemoPage;
