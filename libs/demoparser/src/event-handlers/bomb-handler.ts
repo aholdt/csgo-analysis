@@ -25,7 +25,7 @@ export class BombHandler extends RoundHandlerBase<BombEvent[]> {
 
   hasPlayerStoppedDefusing(): void {
     const latestDefuseEvent = this.currentRound[this.currentRound.length - 1];
-    const defuseStarted = latestDefuseEvent.type === "bomb_begindefuse";
+    const defuseStarted = latestDefuseEvent?.type === "bomb_begindefuse";
     if (!defuseStarted) {
       return;
     }

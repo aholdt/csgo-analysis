@@ -8,4 +8,5 @@ export class GameInfo {
   team2Score: number;
   team1FirstHalfScore: number;
   team2FirstHalfScore: number;
+  id: string;
 }

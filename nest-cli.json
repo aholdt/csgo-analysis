@@ -41,6 +41,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/blob-storage/tsconfig.lib.json"
       }
+    },
+    "cosmos-storage": {
+      "type": "library",
+      "root": "libs/cosmos-storage",
+      "entryFile": "index",
+      "sourceRoot": "libs/cosmos-storage/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/cosmos-storage/tsconfig.lib.json"
+      }
     }
   }
 }

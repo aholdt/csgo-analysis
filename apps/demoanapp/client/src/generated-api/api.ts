@@ -130,6 +130,73 @@ export interface CreateCatDto {
 /**
  * 
  * @export
+ * @interface GameInfo
+ */
+export interface GameInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof GameInfo
+     */
+    tickRate: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GameInfo
+     */
+    map: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GameInfo
+     */
+    thumbPrint: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GameInfo
+     */
+    team1: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GameInfo
+     */
+    team2: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GameInfo
+     */
+    team1Score: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GameInfo
+     */
+    team2Score: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GameInfo
+     */
+    team1FirstHalfScore: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GameInfo
+     */
+    team2FirstHalfScore: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GameInfo
+     */
+    id: string;
+}
+/**
+ * 
+ * @export
  * @interface Inventory
  */
 export interface Inventory {
@@ -750,6 +817,100 @@ export class FilesApi extends BaseAPI {
      */
     public filesControllerUploadFile(file?: any, options?: any) {
         return FilesApiFp(this.configuration).filesControllerUploadFile(file, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * GamesApi - axios parameter creator
+ * @export
+ */
+export const GamesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        gamesControllerGetAll: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/games/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * GamesApi - functional programming interface
+ * @export
+ */
+export const GamesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = GamesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async gamesControllerGetAll(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GameInfo>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.gamesControllerGetAll(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * GamesApi - factory interface
+ * @export
+ */
+export const GamesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = GamesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        gamesControllerGetAll(options?: any): AxiosPromise<Array<GameInfo>> {
+            return localVarFp.gamesControllerGetAll(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * GamesApi - object-oriented interface
+ * @export
+ * @class GamesApi
+ * @extends {BaseAPI}
+ */
+export class GamesApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GamesApi
+     */
+    public gamesControllerGetAll(options?: any) {
+        return GamesApiFp(this.configuration).gamesControllerGetAll(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

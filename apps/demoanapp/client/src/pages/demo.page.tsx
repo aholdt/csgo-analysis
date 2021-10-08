@@ -1,50 +1,48 @@
-import MUIDataTable from "mui-datatables";
+import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
 import React from "react";
+import { GameInfo, GamesApi } from "../generated-api";
 
-const columns = [
-  {
-    name: "name",
-    label: "Name",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "company",
-    label: "Company",
-    options: {
-      filter: true,
-      sort: false,
-    },
-  },
-  {
-    name: "city",
-    label: "City",
-    options: {
-      filter: true,
-      sort: false,
-    },
-  },
-  {
-    name: "state",
-    label: "State",
-    options: {
-      filter: true,
-      sort: false,
-    },
-  },
-];
+class DemoPage extends React.Component<{}, { data: GameInfo[]; columns: MUIDataTableColumnDef[] }> {
+  constructor(props: any) {
+    super(props);
 
-const data = [
-  { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-  { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-  { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-  { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
-];
+    this.state = {
+      data: [],
+      columns: [
+        {
+          name: "team1",
+          label: "Team 1",
+        },
+        {
+          name: "team2",
+          label: "Team 2",
+        },
+        {
+          name: "team1Score",
+          label: "Team 1 Score",
+        },
+        {
+          name: "team2Score",
+          label: "Team 2 Score",
+        },
+        {
+          name: "map",
+          label: "Map",
+        },
+      ],
+    };
+  }
 
-const DemoPage: React.FC = () => {
-  return <MUIDataTable title={"Employee List"} data={data} columns={columns} options={{ tableBodyHeight: "100%" }} />;
-};
+  async componentDidMount() {
+    const gamesApi = new GamesApi();
+    const response = await gamesApi.gamesControllerGetAll();
+    this.setState({ data: response.data });
+  }
+
+  render() {
+    const { data, columns } = this.state;
+    return <MUIDataTable title={"Demo List"} data={data} columns={columns} options={{ tableBodyHeight: "100%" }} />;
+  }
+}
 
 export default DemoPage;

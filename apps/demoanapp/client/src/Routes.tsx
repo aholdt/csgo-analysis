@@ -34,7 +34,7 @@ const Routes: Route[] = [
 export class Route {
   path!: string;
   sidebarName!: string;
-  component!: React.FC;
+  component!: any;
   icon: any;
 }
 

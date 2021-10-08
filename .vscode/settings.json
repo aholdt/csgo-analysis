@@ -14,7 +14,6 @@
   },
   "prettier.printWidth": 140,
   "cSpell.words": [
-    "Hegrenade",
     "begindefuse",
     "beginplant",
     "canceldefuse",
@@ -24,11 +23,13 @@
     "entityid",
     "flashbang",
     "fraggrenade",
+    "Hegrenade",
     "incendiarygrenade",
     "incgrenade",
     "nestjs",
     "smokegrenade",
     "tickstart",
+    "upsert",
     "userid"
   ]
 }

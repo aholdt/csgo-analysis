@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DemoFile, TeamNumber } from "demofile";
+import { v4 as uuidv4 } from "uuid";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
 import { GameInfo } from "../public-models/game-info.entity";
 import { DemoOutputHandler } from "./demo-output-handler";
@@ -29,6 +30,7 @@ export class GameInfoHandler implements DemoOutputHandler {
       team2Score: cts.score,
       team1FirstHalfScore: terrorists.scoreFirstHalf,
       team2FirstHalfScore: cts.scoreFirstHalf,
+      id: uuidv4(),
     };
   }
 
