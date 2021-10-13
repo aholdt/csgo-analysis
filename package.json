@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "generate-api": "npx openapi-generator-cli generate -i \"swagger.json\" -o \"apps/demoanapp/client/src/generated-api -g typescript-axios --artifact-version 1.0.0-SNAPSHOT",
+    "generate-api": "npx openapi-generator-cli generate -i \"swagger.json\" -o \"apps/demoanapp/client/src/generated-api -g typescript-axios --artifact-version 1.0.0-SNAPSHOT --skip-validate-spec",
     "start:azure": "npm run build && func host start"
   },
   "dependencies": {

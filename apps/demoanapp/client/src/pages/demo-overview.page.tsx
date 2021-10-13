@@ -6,15 +6,12 @@ import { GameInfo, GamesApi } from "../generated-api";
 class DemoOverviewPage extends React.Component<any, { data: GameInfo[]; columns: MUIDataTableColumnDef[] }> {
   private onRowClick(rowData: string[]) {
     const id = rowData[0];
-    console.log(this.props.history.location);
     const path = this.props.history.location.pathname + "/" + id;
-    console.log(path);
     this.props.history.push(path);
   }
 
   constructor(props: any) {
     super(props);
-    console.log(props.history);
 
     this.state = {
       data: [],

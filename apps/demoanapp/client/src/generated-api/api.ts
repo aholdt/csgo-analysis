@@ -259,6 +259,85 @@ export interface Kill {
 /**
  * 
  * @export
+ * @interface PlayerGameStats
+ */
+export interface PlayerGameStats {
+    /**
+     * 
+     * @type {number}
+     * @memberof PlayerGameStats
+     */
+    adr: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlayerGameStats
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlayerGameStats
+     */
+    objectType: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlayerGameStats
+     */
+    playerName: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PlayerGameStats
+     */
+    playerId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlayerGameStats
+     */
+    gameId: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof PlayerGameStats
+     */
+    kills: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof PlayerGameStats
+     */
+    deaths: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof PlayerGameStats
+     */
+    assists: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof PlayerGameStats
+     */
+    flashAssists: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof PlayerGameStats
+     */
+    molotovDamage: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof PlayerGameStats
+     */
+    heDamage: object;
+}
+/**
+ * 
+ * @export
  * @interface PlayerHurt
  */
 export interface PlayerHurt {
@@ -911,6 +990,107 @@ export class GamesApi extends BaseAPI {
      */
     public gamesControllerGetAll(options?: any) {
         return GamesApiFp(this.configuration).gamesControllerGetAll(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * PlayerstatsApi - axios parameter creator
+ * @export
+ */
+export const PlayerstatsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} gameId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        playerstatsControllerGetRoundReplay: async (gameId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'gameId' is not null or undefined
+            assertParamExists('playerstatsControllerGetRoundReplay', 'gameId', gameId)
+            const localVarPath = `/playerstats/{gameId}`
+                .replace(`{${"gameId"}}`, encodeURIComponent(String(gameId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PlayerstatsApi - functional programming interface
+ * @export
+ */
+export const PlayerstatsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PlayerstatsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} gameId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async playerstatsControllerGetRoundReplay(gameId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PlayerGameStats>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.playerstatsControllerGetRoundReplay(gameId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * PlayerstatsApi - factory interface
+ * @export
+ */
+export const PlayerstatsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PlayerstatsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} gameId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        playerstatsControllerGetRoundReplay(gameId: string, options?: any): AxiosPromise<Array<PlayerGameStats>> {
+            return localVarFp.playerstatsControllerGetRoundReplay(gameId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PlayerstatsApi - object-oriented interface
+ * @export
+ * @class PlayerstatsApi
+ * @extends {BaseAPI}
+ */
+export class PlayerstatsApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} gameId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PlayerstatsApi
+     */
+    public playerstatsControllerGetRoundReplay(gameId: string, options?: any) {
+        return PlayerstatsApiFp(this.configuration).playerstatsControllerGetRoundReplay(gameId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

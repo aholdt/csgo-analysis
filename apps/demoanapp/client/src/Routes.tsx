@@ -1,10 +1,10 @@
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import React from "react";
-import DemoDetailsPage from "./pages/demo-details.page";
+import DemoDetailsPage from "./pages/demo-details/demo-details.page";
 import DemoOverviewPage from "./pages/demo-overview.page";
 
-const Standings: React.FC = () => {
-  return <h1>Standings</h1>;
+const Stats: React.FC = () => {
+  return <h1>Stats</h1>;
 };
 
 const Teams: React.FC = () => {
@@ -21,13 +21,13 @@ const Routes: Route[] = [
   },
   {
     path: "/demos/:id",
-    sidebarName: "Demos",
+    sidebarName: "Demos > Demo",
     component: DemoDetailsPage,
   },
   {
-    path: "/standings",
-    sidebarName: "Standings",
-    component: Standings,
+    path: "/stats",
+    sidebarName: "Stats",
+    component: Stats,
     icon: InboxIcon,
     displayInSidebar: true,
   },

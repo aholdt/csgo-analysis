@@ -1,8 +1,9 @@
 import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
 import React from "react";
-import { GameInfo, GamesApi } from "../generated-api";
+import { withRouter } from "react-router-dom";
+import { PlayerGameStats, PlayerstatsApi } from "../../generated-api";
 
-class DemoDetailsPage extends React.Component<{}, { data: GameInfo[]; columns: MUIDataTableColumnDef[] }> {
+class PlayerStatsPage extends React.Component<any, { data: PlayerGameStats[]; columns: MUIDataTableColumnDef[] }> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -29,8 +30,11 @@ class DemoDetailsPage extends React.Component<{}, { data: GameInfo[]; columns: M
   }
 
   async componentDidMount() {
-    const gamesApi = new GamesApi();
-    console.log(gamesApi);
+    console.log(this.props);
+    const api = new PlayerstatsApi();
+    const id = this.props.gameId;
+    const response = await api.playerstatsControllerGetRoundReplay(id);
+    this.setState({ data: response.data });
   }
 
   render() {
@@ -39,4 +43,4 @@ class DemoDetailsPage extends React.Component<{}, { data: GameInfo[]; columns: M
   }
 }
 
-export default DemoDetailsPage;
+export default withRouter(PlayerStatsPage);

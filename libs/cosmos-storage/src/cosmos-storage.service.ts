@@ -15,7 +15,7 @@ export class CosmosRepository<T> {
     this.objectType = objectType;
   }
 
-  public async getAll(): Promise<T[]> {
+  public async getAll(predicate?: Predicate<T>): Promise<T[]> {
     const querySpec = {
       query: "SELECT * FROM games u WHERE u.objectType = @objectType",
       parameters: [{ name: "@objectType", value: this.objectType }],
@@ -25,7 +25,12 @@ export class CosmosRepository<T> {
     const result = await cosmosClient.database(this.databaseId).container(this.containerId).items.query<T>(querySpec).fetchAll();
 
     if (result && result.resources) {
-      return result.resources;
+      if (predicate) {
+        return result.resources.filter((x) => predicate(x));
+      }
+      {
+        return result.resources;
+      }
     }
   }
 
@@ -83,3 +88,4 @@ export class CosmosRepository<T> {
     return client;
   }
 }
+type Predicate<T> = (item: T) => boolean;
