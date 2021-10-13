@@ -2,7 +2,7 @@ import { Container, CssBaseline, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import PageHeader from "./components/page-header";
 import SideMenu from "./components/side-menu/side-menu";
@@ -13,22 +13,24 @@ const App: React.FC = () => {
 
   return (
     <div className={clsx("App", classes.root)}>
-      <CssBaseline />
-      <SideMenu drawerWidth={drawerWidth}></SideMenu>
-      <Switch>
-        {Routes.map((route) => (
-          <Route exact path={route.path} key={route.path}>
-            <main className={classes.content}>
-              <Container maxWidth={false} disableGutters={true}>
-                <PageHeader title={route.sidebarName}></PageHeader>
-                <Container maxWidth={false} sx={{ mt: 2 }}>
-                  <route.component />
+      <BrowserRouter>
+        <CssBaseline />
+        <SideMenu drawerWidth={drawerWidth}></SideMenu>
+        <Switch>
+          {Routes.map((route) => (
+            <Route exact path={route.path} key={route.path}>
+              <main className={classes.content}>
+                <Container maxWidth={false} disableGutters={true}>
+                  <PageHeader title={route.sidebarName}></PageHeader>
+                  <Container maxWidth={false} sx={{ mt: 2 }}>
+                    <route.component />
+                  </Container>
                 </Container>
-              </Container>
-            </main>
-          </Route>
-        ))}
-      </Switch>
+              </main>
+            </Route>
+          ))}
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 };

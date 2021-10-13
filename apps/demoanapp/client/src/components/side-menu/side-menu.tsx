@@ -31,7 +31,7 @@ export default function SideMenu(props: any) {
       >
         <Toolbar />
         <List>
-          {Routes.map((route, key) => (
+          {Routes.filter((x) => x.displayInSidebar).map((route, key) => (
             <NavLink to={route.path} style={{ textDecoration: "none" }} key={key}>
               <ListItem button key={route.sidebarName} selected={activeRoute(route.path)}>
                 <ListItemIcon>
