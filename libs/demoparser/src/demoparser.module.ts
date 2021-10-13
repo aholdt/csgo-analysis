@@ -8,6 +8,7 @@ import { KillHandler } from "./event-handlers/kill-handler";
 import { PlayerHurtHandler } from "./event-handlers/player-hurt-handler";
 import { PlayerPositionsHandler } from "./event-handlers/player-positions-handler";
 import { PlayerShotHandler } from "./event-handlers/player-shot-handler";
+import { PlayerStatHandler } from "./event-handlers/player-stat-handler";
 import { UtilityHandler } from "./event-handlers/utility-handler";
 
 @Module({
@@ -21,6 +22,7 @@ import { UtilityHandler } from "./event-handlers/utility-handler";
     KillHandler,
     InventoryHandler,
     BombHandler,
+    PlayerStatHandler,
     {
       provide: "demoOutputBuilders",
       useFactory: (...eventHandlers: DemoOutputHandler[]) => eventHandlers,
@@ -34,6 +36,7 @@ import { UtilityHandler } from "./event-handlers/utility-handler";
         KillHandler,
         InventoryHandler,
         BombHandler,
+        PlayerStatHandler,
       ],
     },
   ],

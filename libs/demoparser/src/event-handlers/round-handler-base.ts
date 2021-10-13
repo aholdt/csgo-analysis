@@ -12,14 +12,16 @@ export abstract class RoundHandlerBase<T> implements DemoOutputHandler {
 
   utilities: UtilityType[] = ["hegrenade", "smokegrenade", "flashbang", "decoy", "molotov", "incgrenade"];
   emptyModel: T;
+  gameId: string;
 
   constructor(ctor: T) {
     this.emptyModel = ctor;
     this.currentRound = JSON.parse(JSON.stringify(ctor)) as T;
   }
 
-  initialize(demoFile: DemoFile): void {
+  initialize(demoFile: DemoFile, gameId?: string): void {
     this.demoFile = demoFile;
+    this.gameId = gameId;
     demoFile.gameEvents.on("round_start", () => this.initializeCurrentRound());
     demoFile.gameEvents.on("round_officially_ended", () => this.endCurrentRound());
   }

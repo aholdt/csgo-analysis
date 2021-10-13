@@ -23,6 +23,6 @@ export class GameInfoRepositoryItem extends RepositoryItem {
     this.team1FirstHalfScore = gameInfo.team1FirstHalfScore;
     this.team2FirstHalfScore = gameInfo.team2FirstHalfScore;
     this.id = gameInfo.id;
+    this.objectType = "GameInfo";
   }
 }
-GameInfoRepositoryItem.objectType = "GameInfo";

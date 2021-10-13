@@ -1,5 +1,4 @@
 import { DemoOutput } from "@app/demoparser/public-models/demo-output";
-import { GameInfo } from "@app/demoparser/public-models/game-info.entity";
 import { AzureFunction, Context } from "@azure/functions";
 import { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
@@ -12,14 +11,16 @@ import { GameInfoRepositoryItem } from "./gameinfo.repositoryitem";
 const blobTrigger: AzureFunction = async function (context: Context): Promise<void> {
   const app = await initApp();
   const demoOutput = await parseDemo(app, context);
-  await persistGameInfo(app, demoOutput.gameInfo);
+  await persistToCosmos(app, demoOutput);
   await uploadDemoOutput(app, demoOutput);
 };
 export default blobTrigger;
 
-async function persistGameInfo(app: INestApplication, gameInfo: GameInfo) {
+async function persistToCosmos(app: INestApplication, demoOutput: DemoOutput) {
   const cosmosStorage = app.get(CosmosRepository);
-  cosmosStorage.upsert(new GameInfoRepositoryItem(gameInfo));
+  cosmosStorage.upsert(new GameInfoRepositoryItem(demoOutput.gameInfo));
+  cosmosStorage.bulkUpsert(demoOutput.playerRoundStats);
+  cosmosStorage.bulkUpsert(demoOutput.playerGameStats);
 }
 
 async function uploadDemoOutput(app: INestApplication, demoOutput: DemoOutput) {
@@ -32,7 +33,7 @@ async function uploadDemoOutput(app: INestApplication, demoOutput: DemoOutput) {
 async function parseDemo(app: INestApplication, context: Context) {
   const demoParser = app.get(DemoparserService);
   const buffer = context.bindings.myBlob;
-  const demoOutput = await demoParser.parseDemo(buffer);
+  const demoOutput = await demoParser.parseDemo(buffer, context.bindingData["name"]);
   return demoOutput;
 }
 

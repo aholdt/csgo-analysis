@@ -11,13 +11,14 @@ export class DemoparserService {
     private readonly demoOutputBuilders: DemoOutputHandler[]
   ) {}
 
-  public parseDemo(buffer: Buffer): Promise<DemoOutput> {
+  public parseDemo(buffer: Buffer, fileName: string): Promise<DemoOutput> {
     return new Promise<DemoOutput>((resolve, reject) => {
       try {
         const demoFile = new DemoFile();
 
         this.demoOutputBuilders.forEach((builder) => {
-          builder.initialize(demoFile);
+          const gameId = `${fileName.substr(0, fileName.indexOf("."))}_`;
+          builder.initialize(demoFile, gameId);
         });
 
         demoFile.on("end", () => {

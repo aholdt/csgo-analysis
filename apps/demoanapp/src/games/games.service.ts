@@ -6,7 +6,7 @@ import { GameInfoRepositoryItem } from "functions/unparsed-demos-blobtrigger/gam
 @Injectable()
 export class GamesService {
   constructor(private readonly gameRepository: CosmosRepository<GameInfoRepositoryItem>) {
-    gameRepository.initialize(GameInfoRepositoryItem.objectType);
+    gameRepository.initialize("GameInfo");
   }
 
   public async getAll(): Promise<GameInfo[]> {
