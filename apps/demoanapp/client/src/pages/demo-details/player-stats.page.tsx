@@ -30,10 +30,9 @@ class PlayerStatsPage extends React.Component<any, { data: PlayerGameStats[]; co
   }
 
   async componentDidMount() {
-    console.log(this.props);
     const api = new PlayerstatsApi();
     const id = this.props.gameId;
-    const response = await api.playerstatsControllerGetRoundReplay(id);
+    const response = await api.playerstatsControllerGet(id);
     this.setState({ data: response.data });
   }
 

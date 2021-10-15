@@ -7,7 +7,10 @@ export class PlayerstatsService {
   constructor(private readonly repository: CosmosRepository<PlayerGameStats>) {
     repository.initialize("PlayerGameStats");
   }
-  getAll(gameId: string): Promise<PlayerGameStats[]> {
-    return this.repository.getAll((x) => x.gameId == gameId);
+  getAll(gameId?: string): Promise<PlayerGameStats[]> {
+    if (gameId) {
+      return this.repository.getAll((x) => x.gameId == gameId);
+    }
+    return this.repository.getAll();
   }
 }

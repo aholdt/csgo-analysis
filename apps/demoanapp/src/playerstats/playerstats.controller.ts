@@ -11,7 +11,12 @@ export class PlayerstatsController {
   constructor(private readonly playerStatsService: PlayerstatsService) {}
 
   @Get(":gameId")
-  getRoundReplay(@Param("gameId") gameId: string): Promise<PlayerGameStats[]> {
+  get(@Param("gameId") gameId: string): Promise<PlayerGameStats[]> {
     return this.playerStatsService.getAll(gameId);
+  }
+
+  @Get("all")
+  getAll(): Promise<PlayerGameStats[]> {
+    return this.playerStatsService.getAll();
   }
 }
