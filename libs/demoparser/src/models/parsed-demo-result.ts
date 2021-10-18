@@ -4,12 +4,15 @@ import { GameInfo } from "../public-models/game-info.entity";
 import { PlayerGameStats } from "../public-models/player-game-stats.entity";
 import { PlayerRoundStats } from "../public-models/player-round-stats.entity";
 import { RoundReplay } from "../public-models/round-replays.entity";
+import { TeamGameStats } from "../public-models/team-game-stats.entity";
+import { TeamRoundStats } from "../public-models/team-round-stats.entity";
 import { BombEvent } from "./bomb-event.entity";
 import { Inventory } from "./inventory.entity";
 import { Kill } from "./kills.entity";
 import { PlayerHurt } from "./player-hurt.entity";
 import { PlayerShot } from "./player-shot.entity";
 import { Position } from "./position.entity";
+import { RoundStats } from "./round-stats";
 import { Utility } from "./utility.entity";
 
 export class ParsedDemoResult {
@@ -20,7 +23,7 @@ export class ParsedDemoResult {
   public kills: Map<number, Kill[]> = new Map<number, Kill[]>();
   public inventories: Map<number, Inventory[]> = new Map<number, Inventory[]>();
   public bombEvents: Map<number, BombEvent[]> = new Map<number, BombEvent[]>();
-  public playerRoundStats: Map<number, PlayerRoundStats[]> = new Map<number, PlayerRoundStats[]>();
+  public roundStats: Map<number, RoundStats> = new Map<number, RoundStats>();
   public gameInfo: GameInfo;
 
   mapToOutput(): DemoOutput {
@@ -39,14 +42,21 @@ export class ParsedDemoResult {
     }
 
     let playerRoundStats: PlayerRoundStats[] = [];
-    const playerGameStats: PlayerGameStats[] = [];
-    for (const a of this.playerRoundStats.values()) {
-      playerRoundStats = playerRoundStats.concat(a);
+    let teamRoundStats: TeamRoundStats[] = [];
+    for (const a of this.roundStats.values()) {
+      playerRoundStats = playerRoundStats.concat(a.playerStats);
+      teamRoundStats = teamRoundStats.concat(a.team1Stats, a.team2Stats);
     }
-    const groupedRoundStats = _.groupBy(playerRoundStats, (x) => x.playerId);
-
-    _.forEach(groupedRoundStats, (g) => {
+    const groupedPlayerRoundStats = _.groupBy(playerRoundStats, (x) => x.playerId);
+    const playerGameStats: PlayerGameStats[] = [];
+    _.forEach(groupedPlayerRoundStats, (g) => {
       playerGameStats.push(new PlayerGameStats(g));
+    });
+
+    const groupedTeamRoundStats = _.groupBy(teamRoundStats, (x) => `${x.teamName}_${x.side}`);
+    const teamGameStats: TeamGameStats[] = [];
+    _.forEach(groupedTeamRoundStats, (g) => {
+      teamGameStats.push(new TeamGameStats(g));
     });
 
     return <DemoOutput>{
@@ -54,6 +64,7 @@ export class ParsedDemoResult {
       roundReplays: roundReplays,
       playerRoundStats: playerRoundStats,
       playerGameStats: playerGameStats,
+      teamGameStats: teamGameStats,
     };
   }
 }

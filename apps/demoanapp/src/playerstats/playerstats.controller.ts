@@ -10,7 +10,7 @@ import { PlayerstatsService } from "./playerstats.service";
 export class PlayerstatsController {
   constructor(private readonly playerStatsService: PlayerstatsService) {}
 
-  @Get(":gameId")
+  @Get("gameId/:gameId")
   get(@Param("gameId") gameId: string): Promise<PlayerGameStats[]> {
     return this.playerStatsService.getAll(gameId);
   }

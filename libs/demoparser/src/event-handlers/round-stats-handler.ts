@@ -1,23 +1,52 @@
 import { Injectable } from "@nestjs/common";
-import { DemoFile, IEventPlayerDeath, IEventPlayerHurt } from "demofile";
+import { DemoFile, IEventPlayerDeath, IEventPlayerHurt, IEventRoundEnd, TeamNumber } from "demofile";
 import { ParsedDemoResult } from "../models/parsed-demo-result";
+import { RoundStats } from "../models/round-stats";
 import { PlayerRoundStats } from "../public-models/player-round-stats.entity";
+import { TeamRoundStats } from "../public-models/team-round-stats.entity";
 import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
-export class PlayerStatHandler extends RoundHandlerBase<PlayerRoundStats[]> {
+export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
   constructor() {
-    super(new Array<PlayerRoundStats>());
+    super(new RoundStats());
   }
   initialize(demoFile: DemoFile, gameId?: string): void {
     super.initialize(demoFile, gameId);
     demoFile.gameEvents.on("player_hurt", (e) => this.onPlayerHurt(e));
     demoFile.gameEvents.on("player_death", (e) => this.onPlayerDeath(e));
     demoFile.gameEvents.on("round_freeze_end", () => this.freezetimeEnded());
+    demoFile.gameEvents.on("round_end", (e) => this.onRoundEnd(e));
+  }
+  onRoundEnd(e: IEventRoundEnd): void {
+    const team1 = this.demoFile.entities.teams[TeamNumber.Terrorists];
+    const team1Name = team1.clanName;
+    const team2 = this.demoFile.entities.teams[TeamNumber.CounterTerrorists];
+    const team2Name = team2.clanName;
+
+    this.currentRound.team1Stats = new TeamRoundStats(
+      team1Name,
+      this.gameId,
+      this.currentRoundNumber(),
+      TeamNumber.Terrorists,
+      e.winner === TeamNumber.Terrorists,
+      team2Name,
+      this.currentRound.playerStats
+    );
+
+    this.currentRound.team2Stats = new TeamRoundStats(
+      team2Name,
+      this.gameId,
+      this.currentRoundNumber(),
+      TeamNumber.CounterTerrorists,
+      e.winner === TeamNumber.CounterTerrorists,
+      team1Name,
+      this.currentRound.playerStats
+    );
   }
 
   addToResult(demoResult: ParsedDemoResult): void {
-    demoResult.playerRoundStats = this.roundResults;
+    demoResult.roundStats = this.roundResults;
   }
 
   onPlayerHurt(e: IEventPlayerHurt): void {
@@ -56,14 +85,14 @@ export class PlayerStatHandler extends RoundHandlerBase<PlayerRoundStats[]> {
   }
 
   private upsertStat(playerId: number, predicate?: Predicate<PlayerRoundStats>) {
-    const existing = this.currentRound.find((x) => x.playerId == playerId);
+    const existing = this.currentRound.playerStats.find((x) => x.playerId == playerId);
     if (!existing) {
-      const playerName = this.demoFile.entities.getByUserId(playerId).name;
-      const playerStat = new PlayerRoundStats(this.demoFile.gameRules.roundsPlayed + 1, playerName, playerId, this.gameId);
+      const player = this.demoFile.entities.getByUserId(playerId);
+      const playerStat = new PlayerRoundStats(this.currentRoundNumber(), player.name, playerId, this.gameId, player.teamNumber);
       if (predicate) {
         predicate(playerStat);
       }
-      this.currentRound.push(playerStat);
+      this.currentRound.playerStats.push(playerStat);
     } else if (predicate) {
       predicate(existing);
     }

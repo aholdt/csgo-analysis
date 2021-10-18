@@ -7,8 +7,9 @@ import { FilesModule } from "./files/files.module";
 import { GamesModule } from "./games/games.module";
 import { RoundReplaysModule } from "./roundreplays/round-replays.module";
 import { PlayerstatsModule } from './playerstats/playerstats.module';
+import { TeamstatsModule } from './teamstats/teamstats.module';
 
 @Module({
-  imports: [CatsModule, FilesModule, RoundReplaysModule, DemoparserModule, AuthModule, GamesModule, CosmosStorageModule, PlayerstatsModule],
+  imports: [CatsModule, FilesModule, RoundReplaysModule, DemoparserModule, AuthModule, GamesModule, CosmosStorageModule, PlayerstatsModule, TeamstatsModule],
 })
 export class AppModule {}

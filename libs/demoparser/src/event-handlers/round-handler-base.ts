@@ -14,6 +14,10 @@ export abstract class RoundHandlerBase<T> implements DemoOutputHandler {
   emptyModel: T;
   gameId: string;
 
+  public currentRoundNumber(): number {
+    return this.demoFile.gameRules.roundsPlayed + 1;
+  }
+
   constructor(ctor: T) {
     this.emptyModel = ctor;
     this.currentRound = JSON.parse(JSON.stringify(ctor)) as T;

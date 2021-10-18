@@ -1,13 +1,8 @@
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import React from "react";
 import DemoDetailsPage from "./pages/demo-details/demo-details.page";
 import DemoOverviewPage from "./pages/demo-overview.page";
 import PlayerStatsOverviewPage from "./pages/player-stats/player-stats-overview.page";
-import teamStatsOverviewPage from "./pages/team-stats/team-stats-overview.page";
-
-const Teams: React.FC = () => {
-  return <h1>Teams</h1>;
-};
+import TeamStatsOverviewPage from "./pages/team-stats/team-stats-overview.page";
 
 const Routes: Route[] = [
   {
@@ -32,7 +27,7 @@ const Routes: Route[] = [
   {
     path: "/team-stats",
     sidebarName: "Team Stats",
-    component: teamStatsOverviewPage,
+    component: TeamStatsOverviewPage,
     icon: InboxIcon,
     displayInSidebar: true,
   },

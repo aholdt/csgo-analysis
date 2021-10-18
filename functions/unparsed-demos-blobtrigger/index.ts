@@ -21,6 +21,7 @@ async function persistToCosmos(app: INestApplication, demoOutput: DemoOutput) {
   cosmosStorage.upsert(new GameInfoRepositoryItem(demoOutput.gameInfo));
   cosmosStorage.bulkUpsert(demoOutput.playerRoundStats);
   cosmosStorage.bulkUpsert(demoOutput.playerGameStats);
+  cosmosStorage.bulkUpsert(demoOutput.teamGameStats);
 }
 
 async function uploadDemoOutput(app: INestApplication, demoOutput: DemoOutput) {
