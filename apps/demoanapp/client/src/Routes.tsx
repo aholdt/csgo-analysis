@@ -3,6 +3,7 @@ import React from "react";
 import DemoDetailsPage from "./pages/demo-details/demo-details.page";
 import DemoOverviewPage from "./pages/demo-overview.page";
 import PlayerStatsOverviewPage from "./pages/player-stats/player-stats-overview.page";
+import teamStatsOverviewPage from "./pages/team-stats/team-stats-overview.page";
 
 const Teams: React.FC = () => {
   return <h1>Teams</h1>;
@@ -29,9 +30,9 @@ const Routes: Route[] = [
     displayInSidebar: true,
   },
   {
-    path: "/teams",
-    sidebarName: "Teams",
-    component: Teams,
+    path: "/team-stats",
+    sidebarName: "Team Stats",
+    component: teamStatsOverviewPage,
     icon: InboxIcon,
     displayInSidebar: true,
   },
