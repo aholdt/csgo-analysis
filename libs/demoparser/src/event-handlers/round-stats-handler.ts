@@ -35,6 +35,7 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       "T",
       e.winner === TeamNumber.Terrorists,
       team2Name,
+      this.demoFile.header.mapName,
       this.currentRound.playerStats.filter((x) => x.side === "T")
     );
 
@@ -45,6 +46,7 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       "CT",
       e.winner === TeamNumber.CounterTerrorists,
       team1Name,
+      this.demoFile.header.mapName,
       this.currentRound.playerStats.filter((x) => x.side === "CT")
     );
   }
@@ -106,7 +108,8 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
         player.name,
         playerId,
         this.gameId,
-        this.getSide(player.teamNumber)
+        this.getSide(player.teamNumber),
+        this.demoFile.header.mapName
       );
       if (predicate) {
         predicate(playerStat);

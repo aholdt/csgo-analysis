@@ -6,6 +6,7 @@ export class TeamGameStats {
     this.teamName = teamRoundStats[0].teamName;
     this.gameId = teamRoundStats[0].gameId;
     this.side = teamRoundStats[0].side;
+    this.map = teamRoundStats[0].map;
 
     this.id = `${this.objectType}_${this.teamName}_${this.gameId}_${this.side}`;
 
@@ -30,6 +31,7 @@ export class TeamGameStats {
   objectType: string;
   teamName: string;
   gameId: string;
+  map: string;
   side: string;
 
   roundWinPct: number;

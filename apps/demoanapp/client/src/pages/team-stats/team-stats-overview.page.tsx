@@ -5,6 +5,10 @@ import { withRouter } from "react-router-dom";
 import { TeamGameStats, TeamstatsApi } from "../../generated-api";
 
 class TeamStatsOverviewPage extends React.Component<any, { data: TeamGameStats[]; columns: MUIDataTableColumnDef[]; isLoading: boolean }> {
+  side?: string;
+  teamName?: string;
+  map?: string;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -102,16 +106,28 @@ class TeamStatsOverviewPage extends React.Component<any, { data: TeamGameStats[]
             filter: false,
           },
         },
+        {
+          name: "map",
+          label: "Map",
+          options: {
+            display: false,
+            filterOptions: { names: ["de_inferno", "de_ancient", "de_dust2", "de_vertigo", "de_overpass", "de_nuke", "de_mirage"] },
+          },
+        },
       ],
       isLoading: false,
     };
   }
 
-  handleFilterSubmit(e: any, changedColumn: number) {
+  handleFilterSubmit(e: any) {
     const filterList = e();
-    const sides = filterList[changedColumn];
-    const side = sides.length ? sides[0] : undefined;
-    this.loadData(side);
+    const sides = filterList[2];
+    this.side = sides.length ? sides[0] : undefined;
+    const teamNames = filterList[0];
+    this.teamName = teamNames.length ? encodeURIComponent(teamNames[0]) : undefined;
+    const maps = filterList[12];
+    this.map = maps.length ? maps[0] : undefined;
+    this.loadData();
   }
 
   filterUpdate = (
@@ -123,7 +139,7 @@ class TeamStatsOverviewPage extends React.Component<any, { data: TeamGameStats[]
   ) => {
     if (type === "chip") {
       var newFilters = () => filterList;
-      this.handleFilterSubmit(newFilters, changedColumnIndex);
+      this.handleFilterSubmit(newFilters);
     }
   };
 
@@ -131,15 +147,10 @@ class TeamStatsOverviewPage extends React.Component<any, { data: TeamGameStats[]
     await this.loadData();
   }
 
-  private async loadData(side?: string) {
+  private async loadData() {
     const api = new TeamstatsApi();
     this.setState({ isLoading: true });
-    let response: any;
-    if (side) {
-      response = await api.teamstatsControllerGetAllByTeamAndSide(side);
-    } else {
-      response = await api.teamstatsControllerGetAllByTeam();
-    }
+    const response = await api.teamstatsControllerGetAllByTeam(this.side, this.teamName, this.map);
     this.setState({ data: response.data, isLoading: false });
   }
 
@@ -153,7 +164,7 @@ class TeamStatsOverviewPage extends React.Component<any, { data: TeamGameStats[]
       customFilterDialogFooter: (currentFilterList, applyNewFilters) => {
         return (
           <div style={{ marginTop: "40px" }}>
-            <Button variant="contained" onClick={() => this.handleFilterSubmit(applyNewFilters, 2)}>
+            <Button variant="contained" onClick={() => this.handleFilterSubmit(applyNewFilters)}>
               Apply Filters
             </Button>
           </div>

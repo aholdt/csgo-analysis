@@ -8,6 +8,7 @@ export class PlayerGameStats extends PlayerStats {
     this.playerId = roundStats[0].playerId;
     this.playerName = roundStats[0].playerName;
     this.gameId = roundStats[0].gameId;
+    this.map = roundStats[0].map;
     this.id = `${this.objectType}_${this.gameId}_${this.playerId}`;
     this.adr = roundStats.reduce((total, next) => total + next.damage, 0) / roundStats.length;
     this.kills = roundStats.reduce((total, next) => total + next.kills, 0);

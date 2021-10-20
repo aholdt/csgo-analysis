@@ -3,6 +3,7 @@ export abstract class PlayerStats {
   playerId: number;
   gameId: string;
   side: string;
+  map: string;
   kills = 0;
   openingKills = 0;
   deathsTraded = 0;

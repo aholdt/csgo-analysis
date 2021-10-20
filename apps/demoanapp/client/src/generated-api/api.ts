@@ -1444,10 +1444,13 @@ export const TeamstatsApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @param {string} [side] 
+         * @param {string} [teamName] 
+         * @param {string} [map] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        teamstatsControllerGetAllByTeam: async (options: any = {}): Promise<RequestArgs> => {
+        teamstatsControllerGetAllByTeam: async (side?: string, teamName?: string, map?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/teamstats/allByTeam`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1460,38 +1463,17 @@ export const TeamstatsApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} side 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        teamstatsControllerGetAllByTeamAndSide: async (side: string, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'side' is not null or undefined
-            assertParamExists('teamstatsControllerGetAllByTeamAndSide', 'side', side)
-            const localVarPath = `/teamstats/allByTeam/side/{side}`
-                .replace(`{${"side"}}`, encodeURIComponent(String(side)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (side !== undefined) {
+                localVarQueryParameter['side'] = side;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            if (teamName !== undefined) {
+                localVarQueryParameter['teamName'] = teamName;
+            }
+
+            if (map !== undefined) {
+                localVarQueryParameter['map'] = map;
+            }
 
 
     
@@ -1535,21 +1517,14 @@ export const TeamstatsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [side] 
+         * @param {string} [teamName] 
+         * @param {string} [map] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async teamstatsControllerGetAllByTeam(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TeamGameStats>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.teamstatsControllerGetAllByTeam(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} side 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async teamstatsControllerGetAllByTeamAndSide(side: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TeamGameStats>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.teamstatsControllerGetAllByTeamAndSide(side, options);
+        async teamstatsControllerGetAllByTeam(side?: string, teamName?: string, map?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TeamGameStats>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.teamstatsControllerGetAllByTeam(side, teamName, map, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1581,20 +1556,14 @@ export const TeamstatsApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @param {string} [side] 
+         * @param {string} [teamName] 
+         * @param {string} [map] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        teamstatsControllerGetAllByTeam(options?: any): AxiosPromise<Array<TeamGameStats>> {
-            return localVarFp.teamstatsControllerGetAllByTeam(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} side 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        teamstatsControllerGetAllByTeamAndSide(side: string, options?: any): AxiosPromise<Array<TeamGameStats>> {
-            return localVarFp.teamstatsControllerGetAllByTeamAndSide(side, options).then((request) => request(axios, basePath));
+        teamstatsControllerGetAllByTeam(side?: string, teamName?: string, map?: string, options?: any): AxiosPromise<Array<TeamGameStats>> {
+            return localVarFp.teamstatsControllerGetAllByTeam(side, teamName, map, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1629,23 +1598,15 @@ export class TeamstatsApi extends BaseAPI {
 
     /**
      * 
+     * @param {string} [side] 
+     * @param {string} [teamName] 
+     * @param {string} [map] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamstatsApi
      */
-    public teamstatsControllerGetAllByTeam(options?: any) {
-        return TeamstatsApiFp(this.configuration).teamstatsControllerGetAllByTeam(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} side 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TeamstatsApi
-     */
-    public teamstatsControllerGetAllByTeamAndSide(side: string, options?: any) {
-        return TeamstatsApiFp(this.configuration).teamstatsControllerGetAllByTeamAndSide(side, options).then((request) => request(this.axios, this.basePath));
+    public teamstatsControllerGetAllByTeam(side?: string, teamName?: string, map?: string, options?: any) {
+        return TeamstatsApiFp(this.configuration).teamstatsControllerGetAllByTeam(side, teamName, map, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

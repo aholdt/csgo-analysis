@@ -1,7 +1,8 @@
 import { TeamGameStats } from "@app/demoparser/public-models/team-game-stats.entity";
-import { Controller, Get, Param, UseGuards } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { AzureADGuard } from "../auth/azure-ad.guard";
+import { UrlDecodePipe } from "../url-decode.pipe";
 import { TeamstatsService } from "./teamstats.service";
 
 @UseGuards(AzureADGuard)
@@ -20,12 +21,26 @@ export class TeamstatsController {
     return this.teamStatsService.getAll();
   }
   @Get("allByTeam")
-  getAllByTeam(): Promise<TeamGameStats[]> {
-    return this.teamStatsService.getAllByTeam();
-  }
-
-  @Get("allByTeam/side/:side")
-  getAllByTeamAndSide(@Param("side") side: string): Promise<TeamGameStats[]> {
-    return this.teamStatsService.getAllByTeam(side);
+  @ApiQuery({
+    name: "side",
+    required: false,
+    type: String,
+  })
+  @ApiQuery({
+    name: "teamName",
+    required: false,
+    type: String,
+  })
+  @ApiQuery({
+    name: "map",
+    required: false,
+    type: String,
+  })
+  getAllByTeam(
+    @Query("side") side?: string,
+    @Query("teamName", UrlDecodePipe) teamName?: string,
+    @Query("map") map?: string
+  ): Promise<TeamGameStats[]> {
+    return this.teamStatsService.getAllByTeam(side, teamName, map);
   }
 }

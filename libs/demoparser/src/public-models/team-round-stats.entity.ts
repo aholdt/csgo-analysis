@@ -8,6 +8,7 @@ export class TeamRoundStats {
     public side: string,
     public roundWon: boolean,
     public opponentTeamName: string,
+    public map: string,
     playerStats: PlayerRoundStats[]
   ) {
     this.objectType = "TeamRoundStats";
