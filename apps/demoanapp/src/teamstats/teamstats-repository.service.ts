@@ -4,7 +4,6 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class TeamstatsRepositoryService extends CosmosRepository<TeamGameStats> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async getAllByTeam(side?: string, teamName?: string, map?: string): Promise<TeamGameStats[]> {
     const querySpec = {
       query:
