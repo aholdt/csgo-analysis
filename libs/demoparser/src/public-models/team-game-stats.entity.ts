@@ -3,7 +3,7 @@ import { TeamRoundStats } from "./team-round-stats.entity";
 export class TeamGameStats {
   constructor(teamRoundStats: TeamRoundStats[]) {
     this.objectType = "TeamGameStats";
-    this.teamName = teamRoundStats[teamRoundStats.length - 1].teamName;
+    this.teamName = teamRoundStats[0].teamName;
     this.gameId = teamRoundStats[0].gameId;
     this.side = teamRoundStats[0].side;
 
@@ -12,7 +12,7 @@ export class TeamGameStats {
     this.roundWinPct = teamRoundStats.reduce((total, next) => total + (next.roundWon ? 1 : 0), 0) / teamRoundStats.length;
 
     this.multiKillPct = teamRoundStats.reduce((total, next) => total + next.multiKills, 0) / teamRoundStats.length;
-    this.openingKillPct = teamRoundStats.reduce((total, next) => total + next.openingKills, 0) / teamRoundStats.length;
+    this.openingKillPct = teamRoundStats.reduce((total, next) => total + next.openingKills, 0);
 
     this.fiveVsFourWinPct =
       teamRoundStats.reduce((total, next) => total + (next.fiveVsFourRound && next.fiveVsFourWin ? 1 : 0), 0) / teamRoundStats.length;

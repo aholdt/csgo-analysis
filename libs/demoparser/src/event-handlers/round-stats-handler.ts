@@ -8,9 +8,12 @@ import { RoundHandlerBase } from "./round-handler-base";
 
 @Injectable()
 export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
+  private killsInRound = 0;
+
   constructor() {
     super(new RoundStats());
   }
+
   initialize(demoFile: DemoFile, gameId?: string): void {
     super.initialize(demoFile, gameId);
     demoFile.gameEvents.on("player_hurt", (e) => this.onPlayerHurt(e));
@@ -18,6 +21,7 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
     demoFile.gameEvents.on("round_freeze_end", () => this.freezetimeEnded());
     demoFile.gameEvents.on("round_end", (e) => this.onRoundEnd(e));
   }
+
   onRoundEnd(e: IEventRoundEnd): void {
     const team1 = this.demoFile.entities.teams[TeamNumber.Terrorists];
     const team1Name = team1.clanName;
@@ -31,7 +35,7 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       TeamNumber.Terrorists,
       e.winner === TeamNumber.Terrorists,
       team2Name,
-      this.currentRound.playerStats
+      this.currentRound.playerStats.filter((x) => x.side === TeamNumber.Terrorists)
     );
 
     this.currentRound.team2Stats = new TeamRoundStats(
@@ -41,7 +45,7 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       TeamNumber.CounterTerrorists,
       e.winner === TeamNumber.CounterTerrorists,
       team1Name,
-      this.currentRound.playerStats
+      this.currentRound.playerStats.filter((x) => x.side === TeamNumber.CounterTerrorists)
     );
   }
 
@@ -54,16 +58,21 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       return;
     }
     this.upsertStat(e.attacker, (item) => (item.damage += e.dmg_health));
-    if (e.weapon.indexOf("hegrenade") > 0) {
+    if (e.weapon.indexOf("hegrenade") >= 0) {
       this.upsertStat(e.attacker, (item) => (item.heDamage += e.dmg_health));
-    } else if (e.weapon.indexOf("molotov") > 0 || e.weapon.indexOf("incgrenade") > 0) {
+    } else if (e.weapon.indexOf("inferno") >= 0) {
       this.upsertStat(e.attacker, (item) => (item.molotovDamage += e.dmg_health));
     }
   }
 
   onPlayerDeath(e: IEventPlayerDeath): void {
+    this.killsInRound++;
     if (e.attacker) {
       this.upsertStat(e.attacker, (item) => item.kills++);
+
+      if (this.killsInRound === 1) {
+        this.upsertStat(e.attacker, (item) => item.openingKills++);
+      }
     }
     this.upsertStat(e.userid, (item) => item.deaths++);
     if (e.assister) {
@@ -77,6 +86,7 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
   }
 
   freezetimeEnded(): void {
+    this.killsInRound = 0;
     for (const p of this.demoFile.players) {
       if (p.isAlive) {
         this.upsertStat(p.userId);
@@ -88,6 +98,9 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
     const existing = this.currentRound.playerStats.find((x) => x.playerId == playerId);
     if (!existing) {
       const player = this.demoFile.entities.getByUserId(playerId);
+      if (!player) {
+        return;
+      }
       const playerStat = new PlayerRoundStats(this.currentRoundNumber(), player.name, playerId, this.gameId, player.teamNumber);
       if (predicate) {
         predicate(playerStat);

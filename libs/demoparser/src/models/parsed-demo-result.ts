@@ -45,7 +45,9 @@ export class ParsedDemoResult {
     let teamRoundStats: TeamRoundStats[] = [];
     for (const a of this.roundStats.values()) {
       playerRoundStats = playerRoundStats.concat(a.playerStats);
-      teamRoundStats = teamRoundStats.concat(a.team1Stats, a.team2Stats);
+      if (a.team1Stats && a.team2Stats) {
+        teamRoundStats = teamRoundStats.concat(a.team1Stats, a.team2Stats);
+      }
     }
     const groupedPlayerRoundStats = _.groupBy(playerRoundStats, (x) => x.playerId);
     const playerGameStats: PlayerGameStats[] = [];

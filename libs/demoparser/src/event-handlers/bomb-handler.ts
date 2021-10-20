@@ -48,6 +48,9 @@ export class BombHandler extends RoundHandlerBase<BombEvent[]> {
 
   onBombEvent(userId: number, bombEventType: string): void {
     const player = this.demoFile.entities.getByUserId(userId);
+    if (!player) {
+      return;
+    }
     this.currentRound.push(<BombEvent>{
       tick: this.demoFile.currentTick,
       position: new Position(this.demoFile.currentTick, player.position),

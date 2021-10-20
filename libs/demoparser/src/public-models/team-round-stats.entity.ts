@@ -29,7 +29,7 @@ export class TeamRoundStats {
       }
     }
 
-    this.deathsTraded = playerStats.reduce((total, next) => total + next.deathTraded, 0);
+    this.deathsTraded = playerStats.reduce((total, next) => total + next.deathsTraded, 0);
     this.deaths = playerStats.reduce((total, next) => total + next.deaths, 0);
 
     this.molotovAdr = playerStats.reduce((total, next) => total + next.molotovDamage, 0);

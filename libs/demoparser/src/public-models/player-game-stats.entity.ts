@@ -12,10 +12,12 @@ export class PlayerGameStats extends PlayerStats {
     this.adr = roundStats.reduce((total, next) => total + next.damage, 0) / roundStats.length;
     this.kills = roundStats.reduce((total, next) => total + next.kills, 0);
     this.deaths = roundStats.reduce((total, next) => total + next.deaths, 0);
+    this.assists = roundStats.reduce((total, next) => total + next.assists, 0);
+    this.openingKills = roundStats.reduce((total, next) => total + next.openingKills, 0);
     this.heDamage = roundStats.reduce((total, next) => total + next.heDamage, 0);
     this.molotovDamage = roundStats.reduce((total, next) => total + next.molotovDamage, 0);
+    this.ud = this.heDamage + this.molotovDamage;
     this.flashAssists = roundStats.reduce((total, next) => total + next.flashAssists, 0);
-    this.assists = roundStats.reduce((total, next) => total + next.assists, 0);
   }
   adr: number;
   id!: string;

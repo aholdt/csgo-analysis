@@ -321,19 +321,13 @@ export interface PlayerGameStats {
      * @type {object}
      * @memberof PlayerGameStats
      */
-    traded: object;
+    deathsTraded: object;
     /**
      * 
      * @type {object}
      * @memberof PlayerGameStats
      */
     deaths: object;
-    /**
-     * 
-     * @type {object}
-     * @memberof PlayerGameStats
-     */
-    deathTraded: object;
     /**
      * 
      * @type {object}
@@ -610,12 +604,6 @@ export interface TeamGameStats {
      * @memberof TeamGameStats
      */
     side: number;
-    /**
-     * 
-     * @type {object}
-     * @memberof TeamGameStats
-     */
-    maps: object;
     /**
      * 
      * @type {number}
