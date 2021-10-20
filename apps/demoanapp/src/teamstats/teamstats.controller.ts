@@ -19,4 +19,13 @@ export class TeamstatsController {
   getAll(): Promise<TeamGameStats[]> {
     return this.teamStatsService.getAll();
   }
+  @Get("allByTeam")
+  getAllByTeam(): Promise<TeamGameStats[]> {
+    return this.teamStatsService.getAllByTeam();
+  }
+
+  @Get("allByTeam/side/:side")
+  getAllByTeamAndSide(@Param("side") side: number): Promise<TeamGameStats[]> {
+    return this.teamStatsService.getAllByTeam(side);
+  }
 }

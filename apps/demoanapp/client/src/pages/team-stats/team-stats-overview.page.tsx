@@ -30,7 +30,7 @@ class TeamStatsOverviewPage extends React.Component<any, { data: TeamGameStats[]
 
   async componentDidMount() {
     const api = new TeamstatsApi();
-    const response = await api.teamstatsControllerGetAll();
+    const response = await api.teamstatsControllerGetAllByTeam();
     this.setState({ data: response.data });
   }
 

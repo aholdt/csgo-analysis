@@ -1,4 +1,4 @@
-import { CosmosClient, DatabaseRequest } from "@azure/cosmos";
+import { Container, CosmosClient, DatabaseRequest } from "@azure/cosmos";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -21,8 +21,8 @@ export class CosmosRepository<T> {
       parameters: [{ name: "@objectType", value: this.objectType }],
     };
 
-    const cosmosClient = await this.ensureCosmos();
-    const result = await cosmosClient.database(this.databaseId).container(this.containerId).items.query<T>(querySpec).fetchAll();
+    const container = await this.getContainer();
+    const result = await container.items.query<T>(querySpec).fetchAll();
 
     if (result && result.resources) {
       if (predicate) {
@@ -42,8 +42,8 @@ export class CosmosRepository<T> {
         { name: "@objectType", value: this.objectType },
       ],
     };
-    const cosmosClient = await this.ensureCosmos();
-    const result = await cosmosClient.database(this.databaseId).container(this.containerId).items.query<T>(querySpec).fetchNext();
+    const container = await this.getContainer();
+    const result = await container.items.query<T>(querySpec).fetchNext();
 
     if (result && result.resources) {
       return result.resources[0];
@@ -57,9 +57,9 @@ export class CosmosRepository<T> {
   }
 
   public async bulkUpsert(items: T[]): Promise<void> {
-    const cosmosClient = await this.ensureCosmos();
+    const container = await this.getContainer();
     for (const item of items) {
-      await cosmosClient.database(this.databaseId).container(this.containerId).items.upsert<T>(item);
+      await container.items.upsert<T>(item);
     }
     // const chunks = _.chunk(items, 50);
     // for (const chunk of chunks) {
@@ -74,7 +74,13 @@ export class CosmosRepository<T> {
     // }
   }
 
-  private async ensureCosmos() {
+  protected async getContainer(): Promise<Container> {
+    const cosmosClient = await this.ensureCosmos();
+    const container = await cosmosClient.database(this.databaseId).container(this.containerId);
+    return container;
+  }
+
+  private async ensureCosmos(): Promise<CosmosClient> {
     const client = new CosmosClient(this.COSMOSDB_CONNECTION_STRING);
 
     const database = await client.databases.createIfNotExists(<DatabaseRequest>{
