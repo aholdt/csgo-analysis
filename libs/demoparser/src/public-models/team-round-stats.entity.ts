@@ -5,7 +5,7 @@ export class TeamRoundStats {
     public teamName: string,
     public gameId: string,
     public roundNumber: number,
-    public side: number,
+    public side: string,
     public roundWon: boolean,
     public opponentTeamName: string,
     playerStats: PlayerRoundStats[]

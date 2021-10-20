@@ -14,7 +14,7 @@ export class TeamstatsService {
     return this.repository.getAll();
   }
 
-  getAllByTeam(side?: number): Promise<TeamGameStats[]> {
+  getAllByTeam(side?: string): Promise<TeamGameStats[]> {
     return this.repository.getAllByTeam(side);
   }
 }

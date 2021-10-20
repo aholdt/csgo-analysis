@@ -32,20 +32,20 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       team1Name,
       this.gameId,
       this.currentRoundNumber(),
-      TeamNumber.Terrorists,
+      "T",
       e.winner === TeamNumber.Terrorists,
       team2Name,
-      this.currentRound.playerStats.filter((x) => x.side === TeamNumber.Terrorists)
+      this.currentRound.playerStats.filter((x) => x.side === "T")
     );
 
     this.currentRound.team2Stats = new TeamRoundStats(
       team2Name,
       this.gameId,
       this.currentRoundNumber(),
-      TeamNumber.CounterTerrorists,
+      "CT",
       e.winner === TeamNumber.CounterTerrorists,
       team1Name,
-      this.currentRound.playerStats.filter((x) => x.side === TeamNumber.CounterTerrorists)
+      this.currentRound.playerStats.filter((x) => x.side === "CT")
     );
   }
 
@@ -101,13 +101,30 @@ export class RoundStatsHandler extends RoundHandlerBase<RoundStats> {
       if (!player) {
         return;
       }
-      const playerStat = new PlayerRoundStats(this.currentRoundNumber(), player.name, playerId, this.gameId, player.teamNumber);
+      const playerStat = new PlayerRoundStats(
+        this.currentRoundNumber(),
+        player.name,
+        playerId,
+        this.gameId,
+        this.getSide(player.teamNumber)
+      );
       if (predicate) {
         predicate(playerStat);
       }
       this.currentRound.playerStats.push(playerStat);
     } else if (predicate) {
       predicate(existing);
+    }
+  }
+
+  getSide(value: number): string {
+    switch (value) {
+      case 2:
+        return "T";
+      case 3:
+        return "CT";
+      default:
+        return undefined;
     }
   }
 }

@@ -30,7 +30,7 @@ export class TeamGameStats {
   objectType: string;
   teamName: string;
   gameId: string;
-  side: number;
+  side: string;
 
   roundWinPct: number;
 

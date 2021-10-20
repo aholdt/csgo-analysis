@@ -25,7 +25,7 @@ export class TeamstatsController {
   }
 
   @Get("allByTeam/side/:side")
-  getAllByTeamAndSide(@Param("side") side: number): Promise<TeamGameStats[]> {
+  getAllByTeamAndSide(@Param("side") side: string): Promise<TeamGameStats[]> {
     return this.teamStatsService.getAllByTeam(side);
   }
 }
