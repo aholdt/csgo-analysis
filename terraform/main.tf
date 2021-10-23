@@ -15,7 +15,7 @@ resource "azurerm_app_service_plan" "main" {
   reserved            = true
 
   sku {
-    tier = "Standard"
+    tier = "Free"
     size = "F1"
   }
 }
@@ -27,6 +27,7 @@ resource "azurerm_app_service" "main" {
   app_service_plan_id = azurerm_app_service_plan.main.id
 
   site_config {
-    linux_fx_version = "NODE|14.08"
+    use_32_bit_worker_process = true
+    linux_fx_version          = "NODE|14-lts"
   }
 }
