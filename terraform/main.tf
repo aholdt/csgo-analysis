@@ -70,7 +70,7 @@ resource "azurerm_app_service" "main" {
   connection_string {
     name  = "AZURE_COSMOS_CONNECTION_STRING"
     type  = "DocDb"
-    value = "DefaultEndpointsProtocol=https;AccountEndpoint=${azurerm_cosmosdb_account.db.connection_string};AccountKey=${azurerm_cosmosdb_account.db.primary_master_key};"
+    value = "DefaultEndpointsProtocol=https;AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_master_key};"
   }
 
   connection_string {
