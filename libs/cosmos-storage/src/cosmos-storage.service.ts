@@ -5,7 +5,7 @@ import { Injectable } from "@nestjs/common";
 export class CosmosRepository<T> {
   objectType: string;
   get COSMOSDB_CONNECTION_STRING(): string {
-    return process.env.AZURE_COSMOS_CONNECTION_STRING || "";
+    return process.env.CUSTOMCONNSTR_AZURE_COSMOS_CONNECTION_STRING || "";
   }
 
   private readonly databaseId = "demoanapp";

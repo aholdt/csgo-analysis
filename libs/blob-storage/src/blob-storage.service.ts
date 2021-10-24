@@ -34,7 +34,7 @@ export class BlobStorageService {
 
   private EnsureBlobServiceClient() {
     if (!this.blobServiceClient) {
-      const STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING || "";
+      const STORAGE_CONNECTION_STRING = process.env.CUSTOMCONNSTR_AZURE_STORAGE_CONNECTION_STRING || "";
       this.blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
     }
   }
