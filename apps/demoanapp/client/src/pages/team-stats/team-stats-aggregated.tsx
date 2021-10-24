@@ -29,6 +29,7 @@ class TeamStatsAggregated extends React.Component<any, { data: TeamGameStats[]; 
           name: "side",
           label: "Side",
           options: {
+            display: false,
             filterOptions: {
               names: ["CT", "T"],
             },
