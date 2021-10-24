@@ -81,7 +81,6 @@ export class CosmosRepository<T> {
   }
 
   private async ensureCosmos(): Promise<CosmosClient> {
-    console.log(this.COSMOSDB_CONNECTION_STRING);
     const client = new CosmosClient(this.COSMOSDB_CONNECTION_STRING);
 
     const database = await client.databases.createIfNotExists(<DatabaseRequest>{
