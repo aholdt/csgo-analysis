@@ -62,7 +62,6 @@ stages:
 - stage: Deploy
   jobs:
   - deployment: Deploy
-    condition: succeeded('Build')
     environment: 'production'
     pool:
       vmImage: $(vmImageName)
