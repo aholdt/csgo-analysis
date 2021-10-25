@@ -1,3 +1,12 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - apps
+    - libs
+
 variables:
 
   # Agent VM image name
