@@ -1,9 +1,16 @@
+variables:
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  subscription : 'Azure Subscription 1'
+  webappname : 'demoan-app'
+
 stages:
 - stage: Build
   jobs:
   - job: Build
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: $(vmImageName)
     steps:
     - task: NodeTool@0
       inputs:
@@ -58,7 +65,7 @@ stages:
     condition: succeeded('Build')
     environment: 'production'
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: $(vmImageName)
     strategy:
        runOnce:
         deploy:
@@ -72,7 +79,7 @@ stages:
             inputs:
               azureSubscription: '$(subscription)'
               appType: 'webApp'
-              appName: 'demoan-app'
+              appName: $(webappname)
               package: '$(System.ArtifactsDirectory)/dist.zip'
               customWebConfig: '-Handler iisnode -NodeStartFile output/dist/main.js -appType node'
               deploymentMethod: 'zipDeploy'
