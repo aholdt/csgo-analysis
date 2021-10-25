@@ -77,10 +77,6 @@ stages:
        runOnce:
         deploy:
           steps:
-          - task: DownloadPipelineArtifact@1
-            displayName: 'Download Pipeline Artifact'
-            inputs:
-              buildType: 'current'
 
           - task: AzureWebApp@1
             inputs:
