@@ -87,6 +87,6 @@ stages:
               azureSubscription: '$(subscription)'
               appType: 'webApp'
               appName: $(webappname)
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              package: '$(System.DefaultWorkingDirectory)/dist.zip'
               customWebConfig: '-Handler iisnode -NodeStartFile output/dist/main.js -appType node'
               deploymentMethod: 'zipDeploy'
