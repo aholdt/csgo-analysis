@@ -1,9 +1,11 @@
 import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
 import React from "react";
 import { withRouter } from "react-router";
-import { GameInfo, GamesApi } from "../generated-api";
+import FileUploadSpeedDial from "../components/file-upload-speed-dial";
+import { FilesApi, GameInfo, GamesApi } from "../generated-api";
 
 class DemoOverviewPage extends React.Component<any, { data: GameInfo[]; columns: MUIDataTableColumnDef[] }> {
+  open: boolean | undefined;
   private onRowClick(rowData: string[]) {
     const id = rowData[0];
     const path = this.props.history.location.pathname + "/" + id;
@@ -50,15 +52,31 @@ class DemoOverviewPage extends React.Component<any, { data: GameInfo[]; columns:
     this.setState({ data: response.data });
   }
 
+  handleFilesSelected = async (e: React.FormEvent<HTMLInputElement>) => {
+    var files = e.currentTarget?.files;
+    if (!files) {
+      return;
+    }
+
+    const api = new FilesApi();
+    for (var i = 0; i < files.length; i++) {
+      const file = files.item(i);
+      await api.filesControllerUploadFile(file);
+    }
+  };
+
   render() {
     const { data, columns } = this.state;
     return (
-      <MUIDataTable
-        title={"Demo List"}
-        data={data}
-        columns={columns}
-        options={{ tableBodyHeight: "100%", onRowClick: (rowData) => this.onRowClick(rowData) }}
-      />
+      <div>
+        <MUIDataTable
+          title={"Demo List"}
+          data={data}
+          columns={columns}
+          options={{ tableBodyHeight: "100%", onRowClick: (rowData) => this.onRowClick(rowData) }}
+        />
+        <FileUploadSpeedDial fileUploadCallback={this.handleFilesSelected} />
+      </div>
     );
   }
 }
