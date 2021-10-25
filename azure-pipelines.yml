@@ -65,7 +65,7 @@ stages:
     - task: PublishPipelineArtifact@0
       displayName: 'Publish pipeline artifacts'
       inputs:
-        targetPath: $(Build.ArtifactStagingDirectory)/
+        targetPath: $(Build.ArtifactStagingDirectory)/dist.zip
 
 - stage: Deploy
   jobs:
