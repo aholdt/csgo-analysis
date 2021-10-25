@@ -1,59 +1,83 @@
-trigger:
-  branches:
-    include:
-    - master
-  paths:
-    include:
-    - apps
-    - libs
+variables:
 
-pool:
-  vmImage: 'ubuntu-latest'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  subscription : 'Azure Subscription 1'
+  webappname : 'demoan-app'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '14.x'
-  displayName: 'Install Node.js'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.x'
+      displayName: 'Install Node.js'
 
-- script: |
-    npm run build-prod
-  displayName: 'npm install and build'
+    - script: |
+        npm run build-prod
+      displayName: 'npm install and build'
 
-- task: CopyFiles@2
-  inputs:
-    Contents: 'package*.json'
-    SourceFolder: ''
-    TargetFolder: 'output/dist'
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'package*.json'
+        SourceFolder: ''
+        TargetFolder: 'output/dist'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'dist'
-    Contents: '**'
-    TargetFolder: 'output/dist'
-    flattenFolders: true
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: 'dist'
+        Contents: '**'
+        TargetFolder: 'output/dist'
+        flattenFolders: true
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'apps/demoanapp/client/build'
-    TargetFolder: 'output/client/build'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: 'apps/demoanapp/client/build'
+        TargetFolder: 'output/client/build'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    workingDir: 'output/dist'
-    customCommand: 'ci --production'
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: 'output/dist'
+        customCommand: 'ci --production'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: 'output'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: 'dist.zip'
-    replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: 'output'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: 'dist.zip'
+        replaceExistingArchive: true
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'dist.zip'
-    ArtifactName: 'Demoan'
-    publishLocation: 'Container'
+    - task: PublishPipelineArtifact@0
+      displayName: 'Publish pipeline artifacts'
+      inputs:
+        targetPath: $(Build.ArtifactStagingDirectory)/
+
+- stage: Deploy
+  jobs:
+  - deployment: Deploy
+    environment: 'production'
+    pool:
+      vmImage: $(vmImageName)
+    strategy:
+       runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@1
+            displayName: 'Download Pipeline Artifact'
+            inputs:
+              buildType: 'current'
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: '$(subscription)'
+              appType: 'webApp'
+              appName: $(webappname)
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              customWebConfig: '-Handler iisnode -NodeStartFile output/dist/main.js -appType node'
+              deploymentMethod: 'zipDeploy'
