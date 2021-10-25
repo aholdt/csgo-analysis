@@ -59,13 +59,13 @@ stages:
         rootFolderOrFile: 'output'
         includeRootFolder: true
         archiveType: 'zip'
-        archiveFile: 'dist.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
         replaceExistingArchive: true
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish pipeline artifacts'
       inputs:
-        targetPath: $(Build.ArtifactStagingDirectory)/output/dist.zip
+        targetPath: $(Build.ArtifactStagingDirectory)/dist.zip
 
 - stage: Deploy
   jobs:
