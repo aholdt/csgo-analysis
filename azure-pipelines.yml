@@ -53,11 +53,10 @@ stages:
         archiveFile: 'dist.zip'
         replaceExistingArchive: true
 
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@0
+      displayName: 'Publish pipeline artifacts'
       inputs:
-        PathtoPublish: 'dist.zip'
-        ArtifactName: 'Demoan'
-        publishLocation: 'Container'
+        targetPath: $(Build.ArtifactStagingDirectory)/
 
 - stage: Deploy
   jobs:
