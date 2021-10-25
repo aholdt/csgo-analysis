@@ -73,5 +73,5 @@ stages:
               appType: 'webApp'
               appName: 'demoan-app'
               package: '$(System.ArtifactsDirectory)/dist.zip'
-              customWebConfig: '-Handler iisnode -NodeStartFile output/app/main.js -appType node'
+              customWebConfig: '-Handler iisnode -NodeStartFile output/dist/main.js -appType node'
               deploymentMethod: 'zipDeploy'
