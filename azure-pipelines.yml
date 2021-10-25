@@ -58,7 +58,6 @@ stages:
     condition: succeeded('Build')
     pool:
       vmImage: 'ubuntu-latest'
-    environment: 'dev-hello'
     strategy:
        runOnce:
         deploy:
