@@ -81,8 +81,7 @@ stages:
           - task: AzureWebApp@1
             inputs:
               azureSubscription: '$(subscription)'
-              appType: 'webApp'
+              appType: 'webAppLinux'
               appName: $(webappname)
-              package: '**/*.zip'
-              customWebConfig: '-Handler iisnode -NodeStartFile output/dist/main.js -appType node'
-              deploymentMethod: 'zipDeploy'
+              startupCommand: 'node output/dist/main.js'
+              package: $(System.DefaultWorkingDirectory)/**/*.zip
