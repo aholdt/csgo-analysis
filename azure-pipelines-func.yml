@@ -43,7 +43,7 @@ stages:
 
     - script: |
         cd functions
-        npm install
+        npm ci
         npm run build:production
         npm run test --if-present
       displayName: 'Prepare binaries'
