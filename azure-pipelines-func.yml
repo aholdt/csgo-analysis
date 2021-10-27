@@ -6,78 +6,78 @@
 trigger:
   branches:
     include:
-    - master
+      - master
   paths:
     include:
-    - functions
-    - libs
+      - functions
+      - libs
 
 variables:
-
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'ef333bfd-fcdd-40a8-ab56-7ea4c578e04f'
+  azureSubscription: "ef333bfd-fcdd-40a8-ab56-7ea4c578e04f"
 
   # Function app name
-  functionAppName: 'demoan-func'
+  functionAppName: "demoan-func"
 
   # Environment name
-  environmentName: 'production'
+  environmentName: "production"
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  vmImageName: "ubuntu-latest"
 
 stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
 
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '14.x'
-      displayName: 'Install Node.js'
-
-    - script: |
-        cd functions
-        npm ci
-        npm run build:production
-        npm run test --if-present
-      displayName: 'Prepare binaries'
-
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
-      inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        replaceExistingArchive: true
-
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      artifact: drop
-
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    environment: $(environmentName)
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureFunctionApp@1
-            displayName: 'Azure Functions App Deploy: '
+        steps:
+          - task: NodeTool@0
             inputs:
-              azureSubscription: '$(azureSubscription)'
-              appType: functionAppLinux
-              appName: $(functionAppName)
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              versionSpec: "14.x"
+            displayName: "Install Node.js"
+
+          - script: |
+              npm ci
+              cd functions
+              npm ci
+              npm run build:production
+              npm run test --if-present
+            displayName: "Prepare binaries"
+
+          - task: ArchiveFiles@2
+            displayName: "Archive files"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/dist"
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+              replaceExistingArchive: true
+
+          - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            artifact: drop
+
+  - stage: Deploy
+    displayName: Deploy stage
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy
+        environment: $(environmentName)
+        pool:
+          vmImage: $(vmImageName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureFunctionApp@1
+                  displayName: "Azure Functions App Deploy: "
+                  inputs:
+                    azureSubscription: "$(azureSubscription)"
+                    appType: functionAppLinux
+                    appName: $(functionAppName)
+                    package: "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip"
