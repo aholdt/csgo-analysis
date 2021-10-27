@@ -83,5 +83,5 @@ stages:
               azureSubscription: '$(subscription)'
               appType: 'webAppLinux'
               appName: $(webappname)
-              startupCommand: 'node output/dist/main.js'
-              package: $(System.DefaultWorkingDirectory)/**/*.zip
+              package: '$(System.DefaultWorkingDirectory)'
+              customWebConfig: '-Handler iisnode -NodeStartFile node output/dist/main.js -appType node'
