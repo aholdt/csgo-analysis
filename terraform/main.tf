@@ -18,6 +18,8 @@ resource "azurerm_app_service_plan" "main" {
     tier = "Free"
     size = "F1"
   }
+  
+  depends_on = [azurerm_app_service_plan.func]
 }
 
 resource "azurerm_cosmosdb_account" "db" {
@@ -55,6 +57,17 @@ resource "azurerm_storage_container" "main" {
   container_access_type = "private"
 }
 
+locals {
+  cosmos = {
+    name  = "AZURE_COSMOS_CONNECTION_STRING"
+    value = "DefaultEndpointsProtocol=https;AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_master_key};"
+  }
+  storage_account = {
+    name  = "AZURE_STORAGE_CONNECTION_STRING"
+    value = azurerm_storage_account.main.primary_blob_connection_string
+  }
+}
+
 resource "azurerm_app_service" "main" {
   name                = "${var.prefix}-app"
   location            = azurerm_resource_group.main.location
@@ -68,14 +81,55 @@ resource "azurerm_app_service" "main" {
   }
 
   connection_string {
-    name  = "AZURE_COSMOS_CONNECTION_STRING"
-    type  = "DocDb"
-    value = "DefaultEndpointsProtocol=https;AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_master_key};"
+    name  = local.cosmos.name
+    type  = "Custom"
+    value = local.cosmos.value
   }
 
   connection_string {
-    name  = "AZURE_STORAGE_CONNECTION_STRING"
+    name  = local.storage_account.name
     type  = "Custom"
-    value = azurerm_storage_account.main.primary_blob_connection_string
+    value = local.storage_account.value
+  }
+}
+
+resource "azurerm_app_service_plan" "func" {
+  name                = "${var.prefix}-func-asp"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  kind                = "FunctionApp"
+  reserved            = true
+
+  sku {
+    tier = "Dynamic"
+    size = "Y1"
+  }
+}
+
+resource "azurerm_function_app" "main" {
+  name                       = "${var.prefix}-func"
+  location                   = azurerm_resource_group.main.location
+  resource_group_name        = azurerm_resource_group.main.name
+  app_service_plan_id        = azurerm_app_service_plan.func.id
+  storage_account_name       = azurerm_storage_account.main.name
+  storage_account_access_key = azurerm_storage_account.main.primary_access_key
+  os_type                    = "linux"
+  version                    = "~3"
+
+  site_config {
+    use_32_bit_worker_process = true
+    linux_fx_version          = "NODE|14-lts"
+  }
+
+  connection_string {
+    name  = local.cosmos.name
+    type  = "Custom"
+    value = local.cosmos.value
+  }
+
+  connection_string {
+    name  = local.storage_account.name
+    type  = "Custom"
+    value = local.storage_account.value
   }
 }
