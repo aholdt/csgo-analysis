@@ -47,6 +47,7 @@ stages:
               npm run build:production
               npm run test --if-present
             displayName: "Prepare binaries"
+            continueOnError: false
 
           - task: ArchiveFiles@2
             displayName: "Archive files"
@@ -81,3 +82,4 @@ stages:
                     appType: functionAppLinux
                     appName: $(functionAppName)
                     package: "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip"
+                    startUpCommand: 'node functions/unparsed-demos-blobtrigger/index.js'
