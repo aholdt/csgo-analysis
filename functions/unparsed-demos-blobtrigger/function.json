@@ -6,7 +6,7 @@
       "type": "blobTrigger",
       "direction": "in",
       "path": "unparsed-demos/{name}",
-      "connection": "CUSTOMCONNSTR_AZURE_STORAGE_CONNECTION_STRING"
+      "connection": "AZURE_STORAGE_CONNECTION_STRING"
     }
   ],
   "scriptFile": "../index.js"
