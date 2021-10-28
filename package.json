@@ -6,12 +6,12 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "install-build-client": "cd apps/demoanapp/client  && yarn && yarn run build",
-    "build-prod": "yarn && yarn run build && yarn run install-build-client",
+    "install-build-client": "cd apps/demoanapp/client  && npm install && npm run build",
+    "build-prod": "npm install && npm run build && npm run install-build-client",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start-client-watch": "cd apps/demoanapp/client && yarn run start",
-    "start-func-watch": "cd functions && yarn run start",
-    "start": "yarn start-client-watch & start:dev & start-func-watch",
+    "start-client-watch": "cd apps/demoanapp/client && npm run start",
+    "start-func-watch": "cd functions && npm run start",
+    "start": "npm-run-all --parallel -l start-client-watch start:dev start-func-watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -21,7 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "generate-api": "npx openapi-generator-cli generate -i \"swagger.json\" -o \"apps/demoanapp/client/src/generated-api -g typescript-axios --artifact-version 1.0.0-SNAPSHOT --skip-validate-spec",
-    "start:azure": "yarn run build && func host start"
+    "start:azure": "npm run build && func host start"
   },
   "dependencies": {
     "@azure/cosmos": "^3.14.1",
