@@ -27,8 +27,8 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        npm run build-prod
-      displayName: 'npm install and build'
+        yarn run build-prod
+      displayName: 'yarn install and build'
 
     - task: CopyFiles@2
       inputs:
@@ -48,7 +48,7 @@ stages:
         SourceFolder: 'apps/demoanapp/client/build'
         TargetFolder: 'output/client/build'
 
-    - task: Npm@1
+    - task: yarn@1
       inputs:
         command: 'custom'
         workingDir: 'output/dist'
