@@ -49,7 +49,7 @@ stages:
         SourceFolder: 'apps/demoanapp/client/build'
         TargetFolder: 'output/client/build'
 
-    - task: npm@1
+    - task: yarn@1
       inputs:
         command: 'custom'
         workingDir: 'output/dist'
