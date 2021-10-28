@@ -48,7 +48,7 @@ module.exports = {
         return false;
       },
     }),
-    new CopyWebpackPlugin([{ context: "", from: "**/function.json", to: "" }, "host.json", "local.settings.json"]),
+    new CopyWebpackPlugin([{ context: "", from: "**/function.json", to: "" }, "host.json"]),
   ],
 
   node: {
