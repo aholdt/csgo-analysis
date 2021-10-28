@@ -1,87 +1,85 @@
 trigger:
   branches:
     include:
-    - master
+      - master
   paths:
     include:
-    - apps
-    - libs
+      - apps
+      - libs
 
 variables:
-
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-  subscription : 'Azure Subscription 1'
-  webappname : 'demoan-app'
+  vmImageName: "ubuntu-latest"
+  subscription: "Azure Subscription 1"
+  webappname: "demoan-app"
 
 stages:
-- stage: Build
-  jobs:
-  - job: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '14.x'
-      displayName: 'Install Node.js'
-
-    - script: |
-        yarn run build-prod
-      displayName: 'yarn install and build'
-
-    - task: CopyFiles@2
-      inputs:
-        Contents: 'package*.json'
-        SourceFolder: ''
-        TargetFolder: 'output/dist'
-
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: 'dist'
-        Contents: '**'
-        TargetFolder: 'output/dist'
-        flattenFolders: true
-
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: 'apps/demoanapp/client/build'
-        TargetFolder: 'output/client/build'
-
-    - task: yarn@1
-      inputs:
-        command: 'custom'
-        workingDir: 'output/dist'
-        customCommand: 'ci --production'
-
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: 'output'
-        includeRootFolder: true
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
-        replaceExistingArchive: true
-
-    - task: PublishPipelineArtifact@0
-      displayName: 'Publish pipeline artifacts'
-      inputs:
-        targetPath: $(Build.ArtifactStagingDirectory)/dist.zip
-
-- stage: Deploy
-  jobs:
-  - deployment: Deploy
-    environment: 'production'
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-       runOnce:
-        deploy:
-          steps:
-
-          - task: AzureWebApp@1
+  - stage: Build
+    jobs:
+      - job: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: NodeTool@0
             inputs:
-              azureSubscription: '$(subscription)'
-              appType: 'webAppLinux'
-              appName: $(webappname)
-              package: '$(System.DefaultWorkingDirectory)'
-              customWebConfig: '-Handler iisnode -NodeStartFile node output/dist/main.js -appType node'
+              versionSpec: "14.x"
+            displayName: "Install Node.js"
+
+          - script: |
+              npm run build-prod
+            displayName: "npm install and build"
+
+          - task: CopyFiles@2
+            inputs:
+              Contents: "package*.json"
+              SourceFolder: ""
+              TargetFolder: "output/dist"
+
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: "dist"
+              Contents: "**"
+              TargetFolder: "output/dist"
+              flattenFolders: true
+
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: "apps/demoanapp/client/build"
+              TargetFolder: "output/client/build"
+
+          - task: npm@1
+            inputs:
+              command: "custom"
+              workingDir: "output/dist"
+              customCommand: "ci --production"
+
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: "output"
+              includeRootFolder: true
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/dist.zip"
+              replaceExistingArchive: true
+
+          - task: PublishPipelineArtifact@0
+            displayName: "Publish pipeline artifacts"
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)/dist.zip
+
+  - stage: Deploy
+    jobs:
+      - deployment: Deploy
+        environment: "production"
+        pool:
+          vmImage: $(vmImageName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: "$(subscription)"
+                    appType: "webAppLinux"
+                    appName: $(webappname)
+                    package: "$(System.DefaultWorkingDirectory)"
+                    customWebConfig: "-Handler iisnode -NodeStartFile node output/dist/main.js -appType node"
