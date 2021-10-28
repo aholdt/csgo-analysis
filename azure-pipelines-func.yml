@@ -41,11 +41,11 @@ stages:
             displayName: "Install Node.js"
 
           - script: |
-              yarn
+              npm ci
               cd functions
-              yarn
-              yarn run build:production
-              yarn run test --if-present
+              npm ci
+              npm run build:production
+              npm run test --if-present
             displayName: "Prepare binaries"
             continueOnError: false
 
