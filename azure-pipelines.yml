@@ -33,7 +33,7 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        Contents: 'package*.json'
+        Contents: 'yarn.lock'
         SourceFolder: ''
         TargetFolder: 'output/dist'
 
@@ -49,11 +49,8 @@ stages:
         SourceFolder: 'apps/demoanapp/client/build'
         TargetFolder: 'output/client/build'
 
-    - task: npm@1
-      inputs:
-        command: 'custom'
-        workingDir: 'output/dist'
-        customCommand: 'ci --production'
+    - script: |
+        yarn
 
     - task: ArchiveFiles@2
       inputs:
