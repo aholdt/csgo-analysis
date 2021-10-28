@@ -27,6 +27,7 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
+        yarn
         yarn run build-prod
       displayName: 'yarn install and build'
 
