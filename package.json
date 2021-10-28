@@ -26,7 +26,7 @@
   "dependencies": {
     "@azure/cosmos": "^3.14.1",
     "@azure/storage-blob": "12.6.0",
-    "@nestjs/common": "8.0.4",
+    "@nestjs/common": "^8.1.2",
     "@nestjs/core": "8.0.4",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "8.0.4",
@@ -44,7 +44,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "8.0.2",
+    "@nestjs/cli": "^8.1.4",
     "@nestjs/schematics": "8.0.2",
     "@nestjs/testing": "8.0.4",
     "@openapitools/openapi-generator-cli": "^2.4.5",
