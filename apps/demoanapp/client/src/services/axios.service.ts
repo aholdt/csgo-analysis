@@ -8,8 +8,10 @@ class AxiosService {
     axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
     axios.interceptors.request.use(
       async (config) => {
-        const accessToken = await MsalService.getAccessToken();
-        config.headers.Authorization = `Bearer ${accessToken}`;
+        if (config?.headers) {
+          const accessToken = await MsalService.getAccessToken();
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
         return config;
       },
       (error) => Promise.reject(error)
