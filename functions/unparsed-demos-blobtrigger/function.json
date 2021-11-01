@@ -9,5 +9,5 @@
       "connection": "AZURE_STORAGE_CONNECTION_STRING"
     }
   ],
-  "scriptFile": "index.js"
+  "scriptFile": "../index.js"
 }
