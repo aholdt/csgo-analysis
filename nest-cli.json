@@ -50,6 +50,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/cosmos-storage/tsconfig.lib.json"
       }
+    },
+    "demoanappfunc": {
+      "type": "application",
+      "root": "apps/demoanappfunc",
+      "entryFile": "index",
+      "sourceRoot": "apps/demoanappfunc/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/demoanappfunc/tsconfig.app.json"
+      }
     }
   }
 }

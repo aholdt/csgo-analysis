@@ -1,7 +1,7 @@
 import { CosmosRepository } from "@app/cosmos-storage";
 import { GameInfo } from "@app/demoparser/public-models/game-info.entity";
 import { Injectable } from "@nestjs/common";
-import { GameInfoRepositoryItem } from "functions/unparsed-demos-blobtrigger/gameinfo.repositoryitem";
+import { GameInfoRepositoryItem } from "apps/demoanappfunc/src/gameinfo.repositoryitem";
 
 @Injectable()
 export class GamesService {

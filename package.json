@@ -10,7 +10,7 @@
     "build-prod": "npm install && npm run build && npm run install-build-client",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start-client-watch": "cd apps/demoanapp/client && npm run start",
-    "start-func-watch": "cd functions && npm run start",
+    "start-func-watch": "nest start --watch demoanappfunc",
     "start": "npm-run-all --parallel -l start-client-watch start:dev start-func-watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -33,6 +33,7 @@
     "@nestjs/swagger": "5.0.9",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
+    "copy-webpack-plugin": "^9.0.1",
     "demofile": "^2.1.0",
     "lodash": "^4.17.21",
     "passport": "^0.4.1",
@@ -44,6 +45,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@azure/functions": "^1.2.3",
     "@nestjs/cli": "^8.1.4",
     "@nestjs/schematics": "8.0.2",
     "@nestjs/testing": "8.0.4",

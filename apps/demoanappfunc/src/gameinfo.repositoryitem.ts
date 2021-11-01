@@ -1,5 +1,5 @@
-import { RepositoryItem } from "../../libs/cosmos-storage/src/public-models/repository-item";
-import { GameInfo } from "../../libs/demoparser/src/public-models/game-info.entity";
+import { RepositoryItem } from "../../../libs/cosmos-storage/src/public-models/repository-item";
+import { GameInfo } from "../../../libs/demoparser/src/public-models/game-info.entity";
 
 export class GameInfoRepositoryItem extends RepositoryItem {
   tickRate!: number;
