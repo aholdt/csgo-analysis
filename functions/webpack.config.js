@@ -48,7 +48,11 @@ module.exports = {
         return false;
       },
     }),
-    new CopyWebpackPlugin([{ context: "", from: "**/function.json", to: "" }, "host.json"]),
+    new CopyWebpackPlugin([
+      { context: "unparsed-demos-blobtrigger", from: "**/function.json", to: "unparsed-demos-blobtrigger" },
+      "host.json",
+      "local.settings.json",
+    ]),
   ],
 
   node: {

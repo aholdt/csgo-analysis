@@ -7,7 +7,7 @@
     "build:production": "webpack --mode=production",
     "start": "webpack --mode=development --watch",
     "poststart": "cd dist && func start",
-    "prestart": "npm run build && func extensions install",
+    "prestart": "func extensions install",
     "start:host": "func start",
     "test": "echo \"No tests yet...\""
   },
