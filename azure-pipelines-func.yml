@@ -45,6 +45,18 @@ stages:
               npm run build-prod
             displayName: "Prepare binaries"
             continueOnError: false
+            
+          - task: CopyFiles@2
+            inputs:
+              Contents: "package*.json"
+              SourceFolder: ""
+              TargetFolder: "dist/apps/demoanappfunc"
+
+          - task: npm@1
+            inputs:
+              command: "custom"
+              workingDir: "dist/apps/demoanappfunc"
+              customCommand: "ci --production"
 
           - task: ArchiveFiles@2
             displayName: "Archive files"
