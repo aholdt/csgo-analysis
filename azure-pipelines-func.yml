@@ -52,6 +52,12 @@ stages:
               SourceFolder: ""
               TargetFolder: "dist/apps/demoanappfunc"
 
+          - task: npm@1
+            inputs:
+              command: "custom"
+              workingDir: "dist/apps/demoanappfunc"
+              customCommand: "ci --production"
+
           - task: ArchiveFiles@2
             displayName: "Archive files"
             inputs:
