@@ -43,7 +43,6 @@ stages:
           - script: |
               npm ci
               npm run build-prod
-              npm run test --if-present
             displayName: "Prepare binaries"
             continueOnError: false
 
