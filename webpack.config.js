@@ -2,16 +2,16 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 module.exports = function (options) {
+  const toCopy = [
+    { context: path.resolve(__dirname), from: "**/function.json" },
+    { context: path.resolve(__dirname), from: "**/host.json" },
+  ];
   return {
     ...options,
     plugins: [
       ...options.plugins,
       new CopyWebpackPlugin({
-        patterns: [
-          { context: path.resolve(__dirname), from: "**/function.json" },
-          { context: path.resolve(__dirname), from: "**/host.json" },
-          { context: path.resolve(__dirname), from: "**/local.settings.json" },
-        ],
+        patterns: toCopy,
       }),
     ],
     output: {
