@@ -8,7 +8,7 @@ import { NestFactory } from "@nestjs/core";
 import { DemoanappfuncModule } from "./demoanappfunc.module";
 import { GameInfoRepositoryItem } from "./gameinfo.repositoryitem";
 
-export const blobTrigger: AzureFunction = async function (context: Context): Promise<void> {
+export const run: AzureFunction = async function (context: Context): Promise<void> {
   const app = await initApp();
   const demoOutput = await parseDemo(app, context);
   await persistToCosmos(app, demoOutput);
