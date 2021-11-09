@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 module.exports = function (options) {
+  console.log(options);
   return {
     ...options,
     plugins: [
@@ -10,7 +11,6 @@ module.exports = function (options) {
         patterns: [
           { context: path.resolve(__dirname), from: "**/function.json" },
           { context: path.resolve(__dirname), from: "**/host.json" },
-          { context: path.resolve(__dirname), from: "**/local.settings.json" },
         ],
       }),
     ],
